@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 const Settings = ({
   setVolume,
   setSFXVolume,
+  sfxVolume,
+  musicVolume,
   isMusicPlaying,
   playSFX,
   togglePlayPause,
@@ -10,28 +12,40 @@ const Settings = ({
   toggleSfxEnabled,
   onBack,
 }) => {
-  const [musicVolume, setMusicVolume] = useState(0.5); // Default volume
-  const [sfxVolume, setSFXVolumeState] = useState(0.5); // Default volume
-
-  // Apply volume updates
+  // Local state for slider positions
+  const [localMusicVolume, setLocalMusicVolume] = useState(musicVolume || 0); // Default to 0 if undefined
+  const [localSFXVolume, setLocalSFXVolume] = useState(sfxVolume || 0); // Default to 0 if undefined
+  
+  // Sync local state with props
   useEffect(() => {
-    setVolume(musicVolume);
-    setSFXVolume(sfxVolume);
-  }, [musicVolume, sfxVolume, setVolume, setSFXVolume]);
+    setLocalMusicVolume(musicVolume);
+    setLocalSFXVolume(sfxVolume);
+  }, [musicVolume, sfxVolume]);
+
+  // Handlers for volume changes
+  const handleMusicVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    setLocalMusicVolume(newVolume);
+  };
+
+  const handleSFXVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setSFXVolume(newVolume);
+    setLocalSFXVolume(newVolume);
+  };
 
   return (
     <div className="settingsMenu">
       <h1>Settings</h1>
       <nav>
-        <button
-          onMouseEnter={() => playSFX('hover')}
-          onClick={() => {
-            playSFX(); // This will play the sound effect
-            togglePlayPause(); // This will toggle the music playback
-          }}
-        >
+        <button onClick={() => {
+          playSFX('click');
+          togglePlayPause();
+        }}>
           {isMusicPlaying ? 'Pause Music' : 'Play Music'}
         </button>
+        
         <label htmlFor="musicVolumeSlider">Music Volume:</label>
         <input
           type="range"
@@ -39,8 +53,8 @@ const Settings = ({
           min="0"
           max="1"
           step="0.01"
-          value={musicVolume}
-          onChange={(e) => setMusicVolume(e.target.value)}
+          value={localMusicVolume}
+          onChange={handleMusicVolumeChange}
         />
 
         <label htmlFor="sfxVolumeSlider">SFX Volume:</label>
@@ -50,26 +64,21 @@ const Settings = ({
           min="0"
           max="1"
           step="0.01"
-          value={sfxVolume}
-          onChange={(e) => setSFXVolumeState(e.target.value)}
+          value={localSFXVolume}
+          onChange={handleSFXVolumeChange}
         />
 
-        <button
-          onMouseEnter={() => playSFX('hover')}
-          onClick={() => {
-            playSFX(),toggleSfxEnabled(!sfxEnabled);
-          }}
-
-        >
+        <button onMouseEnter={() => playSFX('hover')} onClick={() => {
+          playSFX('click');
+          toggleSfxEnabled();
+        }}>
           {sfxEnabled ? 'Disable SFX' : 'Enable SFX'}
         </button>
-        <button
-          onMouseEnter={() => playSFX('hover')}
-          onClick={() => {
-            playSFX('click');
-            onBack();
-          }}
-        >
+        
+        <button onMouseEnter={() => playSFX('hover')} onClick={() => {
+          playSFX('click');
+          onBack();
+        }}>
           Back
         </button>
       </nav>
@@ -78,3 +87,4 @@ const Settings = ({
 };
 
 export default Settings;
+
