@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import MainMenu from './pages/MainMenu';
 import Settings from './pages/Settings';
 import CreateCharacter from './pages/CreateCharacter';
 import AudioManager from './utility/AudioManager';
-
 
 import './styles/App.css'
 function App() {
@@ -27,6 +26,8 @@ function App() {
                 return <CreateCharacter
                           audioManager={audioManager} 
                           onBack={() => setCurrentPage('mainMenu')}/>;
+            case 'playGame':
+                return <div id="game">Game Component or Content Here</div>
             default:
                 return  <MainMenu 
                           audioManager={audioManager}
@@ -34,9 +35,8 @@ function App() {
         }
     };
 
-    return <div className="App">{renderPage()}</div>;
+
+  return <div className="App">{renderPage()}</div>;
 }
 
 export default App;
-
-

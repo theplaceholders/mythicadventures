@@ -31,6 +31,7 @@ const Settings = ({
         >
           {musicButtonText}
         </button>
+        
         <label htmlFor="musicVolumeSlider">Music Volume:</label>
         <input
           type="range"
@@ -83,3 +84,4 @@ const Settings = ({
 };
 
 export default Settings;
+
