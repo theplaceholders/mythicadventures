@@ -1,72 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import { MainMenu } from './MainMenu.jsx'; 
-import { audioManager } from '../utility/AudioManager';
-import { debugLog } from '../utility/debug';
+import React, { useState, useEffect } from 'react';
 
-export function Settings({ onBack }) {
-    // State to store and control the values for volume settings
-    const [musicVolume, setMusicVolume] = useState(audioManager.musicPlayer.volume);
-    const [sfxVolume, setSFXVolume] = useState(audioManager.sfxPlayer.volume);
+const Settings = ({
+  setVolume,
+  setSFXVolume,
+  isMusicPlaying,
+  playSFX,
+  togglePlayPause,
+  sfxEnabled,
+  toggleSfxEnabled,
+  onBack,
+}) => {
+  const [musicVolume, setMusicVolume] = useState(0.5); // Default volume
+  const [sfxVolume, setSFXVolumeState] = useState(0.5); // Default volume
 
-    useEffect(() => {
-        debugLog('Settings component mounted.');
+  // Apply volume updates
+  useEffect(() => {
+    setVolume(musicVolume);
+    setSFXVolume(sfxVolume);
+  }, [musicVolume, sfxVolume, setVolume, setSFXVolume]);
 
-        // Set volume to the latest state when it changes
-        audioManager.setVolume(musicVolume);
-        audioManager.setSFXVolume(sfxVolume);
+  return (
+    <div className="settingsMenu">
+      <h1>Settings</h1>
+      <nav>
+        <button
+          onMouseEnter={() => playSFX('hover')}
+          onClick={() => {
+            playSFX(); // This will play the sound effect
+            togglePlayPause(); // This will toggle the music playback
+          }}
+        >
+          {isMusicPlaying ? 'Pause Music' : 'Play Music'}
+        </button>
+        <label htmlFor="musicVolumeSlider">Music Volume:</label>
+        <input
+          type="range"
+          id="musicVolumeSlider"
+          min="0"
+          max="1"
+          step="0.01"
+          value={musicVolume}
+          onChange={(e) => setMusicVolume(e.target.value)}
+        />
 
-        // Play sound effects when navigating back as a user interaction example
-        return () => {
-            audioManager.playSFX();
-        };
-    }, [musicVolume, sfxVolume]); // Depend on volume state so effects run on their updates
+        <label htmlFor="sfxVolumeSlider">SFX Volume:</label>
+        <input
+          type="range"
+          id="sfxVolumeSlider"
+          min="0"
+          max="1"
+          step="0.01"
+          value={sfxVolume}
+          onChange={(e) => setSFXVolumeState(e.target.value)}
+        />
 
-    // Handler for toggling music play/pause
-    const handleToggleMusic = () => {
-        const status = audioManager.togglePlayPause();
-        debugLog(`Music toggled: ${status}`);
-    };
+        <button
+          onMouseEnter={() => playSFX('hover')}
+          onClick={() => {
+            playSFX(),toggleSfxEnabled(!sfxEnabled);
+          }}
 
-    // Handlers for volume changes
-    const handleMusicVolumeChange = (event) => {
-        setMusicVolume(event.target.value);
-    };
-
-    const handleSFXVolumeChange = (event) => {
-        setSFXVolume(event.target.value);
-    };
-
-    return (
-        <div className="settingsMenu">
-            <h1>Settings</h1>
-            <nav>
-                <button id="btnToggleMusic" onClick={handleToggleMusic}>
-                    {audioManager.musicPlayer.paused ? 'Play Music' : 'Pause Music'}
-                </button>
-                <label htmlFor="musicVolumeSlider">Music Volume:</label>
-                <input 
-                    type="range" 
-                    id="musicVolumeSlider" 
-                    min="0" max="1" 
-                    step="0.01" 
-                    value={musicVolume} 
-                    onChange={handleMusicVolumeChange} 
-                />
-
-                <label htmlFor="sfxVolumeSlider">SFX Volume:</label>
-                <input 
-                    type="range" 
-                    id="sfxVolumeSlider" 
-                    min="0" max="1" 
-                    step="0.01" 
-                    value={sfxVolume} 
-                    onChange={handleSFXVolumeChange} 
-                />
-
-                <button id="btnBack" onClick={onBack}>Back</button>
-            </nav>
-        </div>
-    );
-}
+        >
+          {sfxEnabled ? 'Disable SFX' : 'Enable SFX'}
+        </button>
+        <button
+          onMouseEnter={() => playSFX('hover')}
+          onClick={() => {
+            playSFX('click');
+            onBack();
+          }}
+        >
+          Back
+        </button>
+      </nav>
+    </div>
+  );
+};
 
 export default Settings;

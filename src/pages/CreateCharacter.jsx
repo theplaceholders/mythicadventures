@@ -1,19 +1,8 @@
-import React, { useEffect } from 'react';
-import { audioManager } from '../utility/AudioManager';
+import React from 'react';
 
-const CreateCharacter = ({onBack}) => {
-    useEffect(() => {
-        const btnBack = document.getElementById('btnBack');
-        btnBack.addEventListener('click', handleBack);
-        return () => {
-            btnBack.removeEventListener('click', handleBack);
-        };
-    }, []);
-    const handleBack = () => {
-        audioManager.playSFX();
-    };
-
+const CreateCharacter = ({ onBack, playSFX }) => {
     return (
+        
         <div className="characterInputs">
             <h1>Create Your Character</h1>
             <label htmlFor="characterName">Name:</label>
@@ -32,10 +21,18 @@ const CreateCharacter = ({onBack}) => {
                 <option value="elf">Elf</option>
                 <option value="orc">Orc</option>
             </select>
-            <button id="btnContinue">Continue</button>
-            <button id="btnBack" onClick={onBack}>Back</button>
+            <button id="btnContinue" onMouseEnter={() => playSFX('hover')}
+          onClick={() => {
+            playSFX('click');
+          }}>Continue</button>
+            <button id="btnBack" onMouseEnter={() => playSFX('hover')}
+          onClick={() => {
+            playSFX('click');
+            onBack();
+          }}>Back</button>
         </div>
     );
 };
 
 export default CreateCharacter;
+

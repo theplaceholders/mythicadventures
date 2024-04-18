@@ -1,64 +1,61 @@
-function createAudioManager() {
-    // Music setup
-    const musicPlayer = document.createElement('audio');
-    musicPlayer.loop = true;
-    const musicSource = document.createElement('source');
-    musicSource.src = './assets/audio/2019-11-30_-_No_More_Good_-_David_Fesliyan.mp3';
-    musicSource.type = 'audio/mpeg';  // Correct MIME type for MP3 files
-    musicPlayer.appendChild(musicSource);
-    document.body.appendChild(musicPlayer);
+import React, { useState, useEffect, useRef } from 'react';
 
-    // SFX setup
-    const sfxPlayer = document.createElement('audio');
-    const sfxSource = document.createElement('source');
-    sfxSource.src = './assets/audio/analog-appliance-button-15-186961.mp3';
-    sfxSource.type = 'audio/mpeg';  // Correct MIME type for MP3 files
-    sfxPlayer.appendChild(sfxSource);
-    document.body.appendChild(sfxPlayer);
+export const useAudioManager = ({ musicSrc, sfxSources }) => {
+    const [musicAudio] = useState(() => new Audio(musicSrc));
+    const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+    const [sfxEnabled, setSfxEnabled] = useState(true);
+    const sfxAudios = useRef({});
 
-    // Functions to control music and SFX
-    function playMusic() {
-        musicPlayer.play().catch(e => console.error('Error playing music:', e));
-    }
+    // Create and manage audio objects for each sound effect
+    useEffect(() => {
+        // Initialize all SFX audio objects
+        Object.keys(sfxSources).forEach(key => {
+            sfxAudios.current[key] = new Audio(sfxSources[key]);
+        });
 
-    function pauseMusic() {
-        musicPlayer.pause();
-    }
+        return () => {
+            // Cleanup audio objects
+            Object.values(sfxAudios.current).forEach(audio => {
+                audio.pause();
+            });
+        };
+    }, [sfxSources]); // Recreate when sfxSources changes
 
-    function togglePlayPause() {
-        if (musicPlayer.paused) {
-            playMusic();
-            return 'Pause Music';
+    const togglePlayPause = () => {
+        if (musicAudio.paused) {
+            musicAudio.play().catch(e => console.error('Error playing music:', e));
+            setIsMusicPlaying(true);
         } else {
-            pauseMusic();
-            return 'Play Music';
+            musicAudio.pause();
+            setIsMusicPlaying(false);
         }
-    }
-
-    function setVolume(volume) {
-        musicPlayer.volume = volume;
-    }
-
-    function playSFX() {
-        sfxPlayer.currentTime = 0;
-        sfxPlayer.play().catch(e => console.error('Error playing SFX:', e));
-    }
-
-    function setSFXVolume(volume) {
-        sfxPlayer.volume = volume;
-    }
-
-    // Returning the functions so they can be used outside this setup function
-    return {
-        togglePlayPause,
-        setVolume,
-        setSFXVolume,
-        playSFX,
-        playMusic,
-        musicPlayer,
-        sfxPlayer
     };
-}
 
-const audioManager = createAudioManager();
-export { audioManager };
+    const setVolume = (volume) => {
+        musicAudio.volume = volume;
+    };
+
+    const toggleSfxEnabled = () => {
+        setSfxEnabled(!sfxEnabled);
+    };
+
+    const playSFX = (key) => {
+        if (sfxEnabled && sfxAudios.current[key]) {
+            sfxAudios.current[key].currentTime = 0;
+            sfxAudios.current[key].play().catch(e => console.error(`Error playing ${key} SFX:`, e));
+        }
+    };
+
+    const setSFXVolume = (volume) => {
+        if (sfxEnabled) {
+            Object.values(sfxAudios.current).forEach(audio => {
+                audio.volume = volume;
+            });
+        }
+    };
+
+    return { togglePlayPause, setVolume, setSFXVolume, playSFX, isMusicPlaying, toggleSfxEnabled, sfxEnabled };
+};
+
+export default useAudioManager;
+
