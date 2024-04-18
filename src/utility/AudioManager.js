@@ -1,61 +1,59 @@
-import React, { useState, useEffect, useRef } from 'react';
-
-export const useAudioManager = ({ musicSrc, sfxSources }) => {
-    const [musicAudio] = useState(() => new Audio(musicSrc));
-    const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-    const [sfxEnabled, setSfxEnabled] = useState(true);
-    const sfxAudios = useRef({});
-
-    // Create and manage audio objects for each sound effect
-    useEffect(() => {
-        // Initialize all SFX audio objects
-        Object.keys(sfxSources).forEach(key => {
-            sfxAudios.current[key] = new Audio(sfxSources[key]);
-        });
-
-        return () => {
-            // Cleanup audio objects
-            Object.values(sfxAudios.current).forEach(audio => {
-                audio.pause();
-            });
-        };
-    }, [sfxSources]); // Recreate when sfxSources changes
-
-    const togglePlayPause = () => {
-        if (musicAudio.paused) {
-            musicAudio.play().catch(e => console.error('Error playing music:', e));
-            setIsMusicPlaying(true);
-        } else {
-            musicAudio.pause();
-            setIsMusicPlaying(false);
-        }
-    };
-
-    const setVolume = (volume) => {
-        musicAudio.volume = volume;
-    };
-
-    const toggleSfxEnabled = () => {
-        setSfxEnabled(!sfxEnabled);
-    };
-
-    const playSFX = (key) => {
-        if (sfxEnabled && sfxAudios.current[key]) {
-            sfxAudios.current[key].currentTime = 0;
-            sfxAudios.current[key].play().catch(e => console.error(`Error playing ${key} SFX:`, e));
-        }
-    };
-
-    const setSFXVolume = (volume) => {
-        if (sfxEnabled) {
-            Object.values(sfxAudios.current).forEach(audio => {
-                audio.volume = volume;
-            });
-        }
-    };
-
-    return { togglePlayPause, setVolume, setSFXVolume, playSFX, isMusicPlaying, toggleSfxEnabled, sfxEnabled };
+import backgroundMusic from '../assets/audio/2019-11-30_-_No_More_Good_-_David_Fesliyan.mp3';
+import hoverSound from '../assets/audio/hover.wav'
+import click from '../assets/audio/click.mp3'
+const sfxSources = {
+    click: click,
+    hover: hoverSound
 };
 
-export default useAudioManager;
+export class AudioManager{
+    static musicAudio = new Audio(backgroundMusic);
+    static isMusicPlaying = false;
+    static sfxEnabled = true;
+    static sfxAudios = {};
+
+    constructor(){
+        if(Object.keys(AudioManager.sfxAudios).length == 0){
+            Object.keys(sfxSources).forEach(key=>{
+                AudioManager.sfxAudios[key] = new Audio(sfxSources[key])
+            });
+            AudioManager.sfxAudios.volume = 1;
+        }
+    }
+
+    togglePlayPause(){
+        if (AudioManager.musicAudio.paused) {
+            AudioManager.musicAudio.play().catch(e => console.error('Error playing music:', e));
+            AudioManager.isMusicPlaying = true;
+        } else {
+            AudioManager.musicAudio.pause();
+            AudioManager.isMusicPlaying = false;
+        }
+    };
+
+    setVolume(volume){
+        AudioManager.musicAudio.volume = volume
+    };
+
+    toggleSfxEnabled(){
+        AudioManager.sfxEnabled = !AudioManager.sfxEnabled;
+    };
+
+    playSFX(key){
+        if (AudioManager.sfxEnabled) {
+            AudioManager.sfxAudios[key].currentTime = 0;
+            AudioManager.sfxAudios[key].play().catch(e => console.error(`Error playing ${key} SFX:`, e));
+        }
+    };
+
+    setSFXVolume(volume){
+        AudioManager.sfxAudios.volume = volume;
+        Object.keys(AudioManager.sfxAudios).forEach(key=>{
+            if(key != "volume")
+            AudioManager.sfxAudios[key].volume = parseFloat(volume)
+        })
+    };
+};
+
+export default AudioManager;
 
