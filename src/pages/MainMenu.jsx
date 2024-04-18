@@ -15,7 +15,6 @@ export const MainMenu = ({
           onMouseEnter={() => playSFX('hover')}
           onClick={() => {
             playSFX('click');
-            onPlayGame();
           }}
         >
           Play Game
