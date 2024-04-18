@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const MainMenu = ({
-  playSFX,
+  audioManager,
   onPlayGame,
   onCreateCharacter,
   onSettings,
@@ -12,18 +12,18 @@ export const MainMenu = ({
       <nav>
         <button
           id="btnPlayGame"
-          onMouseEnter={() => playSFX('hover')}
+          onMouseEnter={() => audioManager.playSFX('hover')}
           onClick={() => {
-            playSFX('click');
+            audioManager.playSFX('click');
           }}
         >
           Play Game
         </button>
         <button
           id="btnCreateCharacter"
-          onMouseEnter={() => playSFX('hover')}
+          onMouseEnter={() => audioManager.playSFX('hover')}
           onClick={() => {
-            playSFX('click');
+            audioManager.playSFX('click');
             onCreateCharacter();
           }}
         >
@@ -31,9 +31,9 @@ export const MainMenu = ({
         </button>
         <button
           id="btnSettings"
-          onMouseEnter={() => playSFX('hover')}
+          onMouseEnter={() => audioManager.playSFX('hover')}
           onClick={() => {
-            playSFX('click');
+            audioManager.playSFX('click');
             onSettings();
           }}
         >
