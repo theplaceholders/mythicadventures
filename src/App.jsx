@@ -5,6 +5,7 @@ import CreateCharacter from './pages/CreateCharacter';
 import AudioManager from './utility/AudioManager';
 
 import './styles/App.css'
+import { startGame } from './phaser-game/game';
 function App() {
     const [currentPage, setCurrentPage] = useState('mainMenu');
     let audioManager = new AudioManager();
@@ -27,6 +28,7 @@ function App() {
                           audioManager={audioManager} 
                           onBack={() => setCurrentPage('mainMenu')}/>;
             case 'playGame':
+                startGame();
                 return <div id="game">Game Component or Content Here</div>
             default:
                 return  <MainMenu 
