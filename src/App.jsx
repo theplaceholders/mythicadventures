@@ -33,7 +33,7 @@ function App() {
             case 'playGame':
                 var w = window.innerWidth;
                 var h = window.innerHeight;
-                startGame(w, h);
+                startGame(w, h, () => setCurrentPage('mainMenu'));
                 return <div id="game"></div>
             default:
                 return  <MainMenu 
