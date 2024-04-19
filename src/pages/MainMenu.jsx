@@ -15,6 +15,7 @@ export const MainMenu = ({
           onMouseEnter={() => audioManager.playSFX('hover')}
           onClick={() => {
             audioManager.playSFX('click');
+            onPlayGame();
           }}
         >
           Play Game
