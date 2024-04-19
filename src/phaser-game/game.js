@@ -7,16 +7,17 @@ class MainScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('plant', './assets/sprites/TX Plant.png');
-        this.load.image('player', './assets/sprites/TX Player.png');
-        this.load.image('props', './assets/sprites/TX Props.png');
-        this.load.image('shadowPlant', './assets/sprites/TX Shadow Plant.png');
-        this.load.image('shadow', './assets/sprites/TX Shadow.png');
-        this.load.image('struct', './assets/sprites/TX Struct.png');
-        this.load.image('tilesetGrass', './assets/sprites/TX Tileset Grass.png');
-        this.load.image('tilesetStoneGround', '../assets/sprites/TX Tileset Stone Ground.png');
-        this.load.image('tilesetWall', './assets/sprites/TX Tileset Wall.png');
+        this.load.image('plant', './sprites/TX Plant.png');
+        this.load.image('player', './sprites/TX Player.png');
+        this.load.image('props', './sprites/TX Props.png');
+        this.load.image('shadowPlant', './sprites/TX Shadow Plant.png');
+        this.load.image('shadow', './sprites/TX Shadow.png');
+        this.load.image('struct', './sprites/TX Struct.png');
+        this.load.image('tilesetGrass', './sprites/TX Tileset Grass.png');
+        this.load.image('tilesetStoneGround', './sprites/TX Tileset Stone Ground.png');
+        this.load.image('tilesetWall', './sprites/TX Tileset Wall.png');
     }
+    
     
 
 
