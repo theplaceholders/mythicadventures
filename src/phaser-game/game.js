@@ -1,49 +1,50 @@
 import Phaser from 'phaser';
+import plantSheet from './sprites/TX Plant.png';
+import playerSheet from './sprites/TX Player.png';
+import propsSheet from './sprites/TX Props.png';
+import shadowPlantSheet from './sprites/TX Shadow Plant.png';
+import shadowSheet from './sprites/TX Shadow.png';
+import structSheet from './sprites/TX Struct.png';
+import tilesetGrassSheet from './sprites/TX Tileset Grass.png';
+import tilesetStoneGroundSheet from './sprites/TX Tileset Stone Ground.png';
+import tilesetWallSheet from './sprites/TX Tileset Wall.png';
 
-// Define a class that extends Phaser.Scene
 class MainScene extends Phaser.Scene {
     constructor() {
         super('MainScene');
     }
 
     preload() {
-        this.load.image('plant', './sprites/TX Plant.png');
-        this.load.image('player', './sprites/TX Player.png');
-        this.load.image('props', './sprites/TX Props.png');
-        this.load.image('shadowPlant', './sprites/TX Shadow Plant.png');
-        this.load.image('shadow', './sprites/TX Shadow.png');
-        this.load.image('struct', './sprites/TX Struct.png');
-        this.load.image('tilesetGrass', './sprites/TX Tileset Grass.png');
-        this.load.image('tilesetStoneGround', './sprites/TX Tileset Stone Ground.png');
-        this.load.image('tilesetWall', './sprites/TX Tileset Wall.png');
+        this.load.spritesheet('plantSheet', plantSheet, { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('playerSheet', playerSheet, { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('propsSheet', propsSheet, { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('shadowPlantSheet', shadowPlantSheet, { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('shadowSheet', shadowSheet, { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('structSheet', structSheet, { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('tilesetGrassSheet', tilesetGrassSheet, { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('tilesetStoneGroundSheet', tilesetStoneGroundSheet, { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('tilesetWallSheet', tilesetWallSheet, { frameWidth: 32, frameHeight: 32 });
     }
-    
-    
-
 
     create() {
-        // Add the player sprite
-        this.player = this.add.sprite(400, 300, 'player');
-        // Set up any other game objects here
+       this.player = this.add.sprite(100, 400, "playerSheet")
     }
 
     update() {
-        // Handle the game loop here
-        // Update your game state in each frame
+        // Game update loop.
     }
 }
 
-// The startGame function will set up the game and its configuration
-export function startGame() {
-    console.log('Starting game...');
-    const gameCanvas = document.getElementById('game');
+export function startGame(width, height) {
+
+    
     const config = {
-        type: Phaser.WEBGL,
-        width: 800,
-        height: 600,
-        canvas: gameCanvas,
-        scene: [MainScene] // Add your scene to the list of scenes
+        type: Phaser.AUTO,
+        width: width,
+        height: height,
+        scene: [MainScene]
     };
 
-    const game = new Phaser.Game(config);
+    new Phaser.Game(config);
 }
+
