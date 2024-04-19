@@ -1,37 +1,48 @@
-import Phaser, { CANVAS } from 'phaser';
+import Phaser from 'phaser';
 
+// Define a class that extends Phaser.Scene
+class MainScene extends Phaser.Scene {
+    constructor() {
+        super('MainScene');
+    }
+
+    preload() {
+        this.load.image('plant', './assets/sprites/TX Plant.png');
+        this.load.image('player', './assets/sprites/TX Player.png');
+        this.load.image('props', './assets/sprites/TX Props.png');
+        this.load.image('shadowPlant', './assets/sprites/TX Shadow Plant.png');
+        this.load.image('shadow', './assets/sprites/TX Shadow.png');
+        this.load.image('struct', './assets/sprites/TX Struct.png');
+        this.load.image('tilesetGrass', './assets/sprites/TX Tileset Grass.png');
+        this.load.image('tilesetStoneGround', '../assets/sprites/TX Tileset Stone Ground.png');
+        this.load.image('tilesetWall', './assets/sprites/TX Tileset Wall.png');
+    }
+    
+
+
+    create() {
+        // Add the player sprite
+        this.player = this.add.sprite(400, 300, 'player');
+        // Set up any other game objects here
+    }
+
+    update() {
+        // Handle the game loop here
+        // Update your game state in each frame
+    }
+}
+
+// The startGame function will set up the game and its configuration
 export function startGame() {
     console.log('Starting game...');
-    const gameCanvas = document.getElementById('gameCanvas');
-    gameCanvas.classList.add('visible');
+    const gameCanvas = document.getElementById('game');
     const config = {
         type: Phaser.WEBGL,
         width: 800,
         height: 600,
-        canvas: gameCanvas
+        canvas: gameCanvas,
+        scene: [MainScene] // Add your scene to the list of scenes
     };
 
     const game = new Phaser.Game(config);
-
-    function preload() {
-        this.load.image('player', 'assets/images/player.svg');
-    }
-
-    function create() {
-        const player = this.add.sprite(400, 300, 'player');
-    }
-
-    function update() {
-        // Update game state in each frame
-    }
 }
-
-// Hide or remove elements related to character creation or main menu
-document.addEventListener('DOMContentLoaded', () => {
-    const playGameBtn = document.getElementById('btnPlayGame');
-    playGameBtn.addEventListener('click', () => {
-        startGame();
-        document.getElementById('pageContainer').style.display = 'none';
-        document.getElementById('pageContainer').remove();
-    });
-});
