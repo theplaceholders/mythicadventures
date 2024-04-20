@@ -1,49 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainMenu from './pages/MainMenu';
 import Settings from './pages/Settings';
 import CreateCharacter from './pages/CreateCharacter';
+import PhaserGame from './pages/PhaserGame'; // This would be your new component
 import AudioManager from './utility/AudioManager';
 
-import './styles/App.css'
-import { startGame } from './phaser-game/game';
-
-
+import './styles/App.css';
 
 function App() {
     const [currentPage, setCurrentPage] = useState('mainMenu');
-    let audioManager = new AudioManager();
-    
+    const audioManager = new AudioManager();
 
     const renderPage = () => {
         switch (currentPage) {
             case 'mainMenu':
                 return <MainMenu 
-                audioManager={audioManager}
-                onSettings={() => setCurrentPage('settings')} 
-                onCreateCharacter={() => setCurrentPage('createCharacter')}
-                onPlayGame={() => setCurrentPage('playGame')}/>;
+                    audioManager={audioManager}
+                    onSettings={() => setCurrentPage('settings')} 
+                    onCreateCharacter={() => setCurrentPage('createCharacter')}
+                    onPlayGame={() => setCurrentPage('playGame')}/>;
             case 'settings':
-                return  <Settings 
-                          audioManager={audioManager}
-                          onBack={() => setCurrentPage('mainMenu')}/>;
+                return <Settings 
+                    audioManager={audioManager}
+                    onBack={() => setCurrentPage('mainMenu')}/>;
             case 'createCharacter':
                 return <CreateCharacter
-                          audioManager={audioManager} 
-                          onBack={() => setCurrentPage('mainMenu')}/>;
+                    audioManager={audioManager} 
+                    onBack={() => setCurrentPage('mainMenu')}/>;
             case 'playGame':
-                var w = window.innerWidth;
-                var h = window.innerHeight;
-                startGame(w, h, () => setCurrentPage('mainMenu'));
-                return <div id="game"></div>
+                return <PhaserGame exitGame={() => setCurrentPage('mainMenu')} />;
             default:
-                return  <MainMenu 
-                          audioManager={audioManager}
-                          onSettings={() => setCurrentPage('settings')}/>;
+                return <MainMenu 
+                    audioManager={audioManager}
+                    onSettings={() => setCurrentPage('settings')} />;
         }
     };
 
-
-  return <div className="App">{renderPage()}</div>;
+    return <div className="App">{renderPage()}</div>;
 }
 
 export default App;
