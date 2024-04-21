@@ -26,7 +26,6 @@ class Button extends Phaser.GameObjects.Container {
 
             })
             .on('pointerup', () => {
-
                 onClick.call(context);
             });
 
