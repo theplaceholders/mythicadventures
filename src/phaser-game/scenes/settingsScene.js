@@ -28,9 +28,9 @@ class SettingsScene extends Phaser.Scene {
       this.menuContainer.add(menuItem);
     });
 
-    // Assuming all buttons have the same width and height
-    const buttonWidth = 300; // The width of each button
-    const buttonHeight = 130; // The height of each button
+
+    const buttonWidth = 300; 
+    const buttonHeight = 130; 
     totalHeight = buttonTitles.length * buttonHeight; // Total height of all buttons including spacing
 
     // Center the container on the screen
@@ -39,6 +39,10 @@ class SettingsScene extends Phaser.Scene {
 
     // Adjust container position to center
     this.menuContainer.setPosition(centerX, centerY - totalHeight / 2);
+
+    this.input.keyboard.on('keydown-ESC', () => {
+      this.closeSettings();
+  });
   }
 
   createMenuItem(text, x, y, label) {
@@ -62,7 +66,11 @@ class SettingsScene extends Phaser.Scene {
 
     return button;
   }
-
+  closeSettings() {
+    // Stop the SettingsScene and resume the MainScene
+    this.scene.stop('SettingsScene');
+    this.scene.resume('MainScene');
+}
   handleMenuItemClick(item) {
     console.log(item + ' clicked');
     switch (item) {
