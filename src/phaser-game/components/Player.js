@@ -34,12 +34,27 @@ export default class Player {
             frameRate: 10
         });
     }
-
+    openSettings() {
+        // Check if the SettingsScene is already running
+        const settingsScene = this.scene.scene.get('SettingsScene');
+        if (settingsScene && settingsScene.scene.isActive()) {
+            // SettingsScene is already active, no action needed
+        } else {
+            // Pause the MainScene and launch the SettingsScene
+            this.scene.scene.pause('MainScene');
+            this.scene.scene.launch('SettingsScene');
+        }
+    }
+    
+    
+    
     update(keys) {
         this.sprite.setVelocity(0);
         let isMoving = false;
 
-        // Handle horizontal and vertical movements
+        if(keys.esc.isDown){
+            this.openSettings()
+        }
         if (keys.a.isDown) {
             this.sprite.setVelocityX(-160);
             this.sprite.anims.play('walk-left', true);
@@ -47,7 +62,7 @@ export default class Player {
             this.lastDirection = 'left';
             isMoving = true;
         } else if (keys.d.isDown) {
-            this.sprite.setVelocityX(160);
+            this.sprite.setVelocityX(500);
             this.sprite.anims.play('walk-left', true); // Play 'walk-left' with flipX true for right movement
             this.sprite.flipX = true;
             this.lastDirection = 'right';

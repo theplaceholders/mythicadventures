@@ -3,8 +3,6 @@ import plantsSheet from '../sprites/TX Plant.png';
 import grassSheet from '../sprites/TX Tileset Grass.png';
 import testMap from './testMap.json';
 
-
-
 export default class GameMap {
     constructor(scene) {
         this.scene = scene;
@@ -21,7 +19,6 @@ export default class GameMap {
         this.map = this.scene.add.tilemap("testMap");
         const camera = this.scene.cameras.main;
         
-        // Set the camera to the bounds of the map
         camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         camera.setZoom(1.5);
 
@@ -31,7 +28,6 @@ export default class GameMap {
         const grassLayer = this.map.createLayer("Bottom Layer ", landscapeTiles, 0, 0);
         const plantsLayer = this.map.createLayer("Tree Layer", plantTiles, 0, 0);
 
-        // Debug graphics and depth settings
         grassLayer.setDepth(1);
         plantsLayer.setDepth(500);
         plantsLayer.setCollisionByProperty({ collide: true });
@@ -39,15 +35,11 @@ export default class GameMap {
         this.scene.physics.world.createDebugGraphic();
         this.scene.physics.world.drawDebug = true;
 
-        // Render debug graphics to visualize collision tiles
         plantsLayer.renderDebug(this.scene.add.graphics(), {
             tileColor: null, // Non-colliding tiles
             collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255),
             faceColor: new Phaser.Display.Color(40, 39, 37, 255)
         });
-
-        console.log(this.map);  // Output the map object to the console for debugging
-
         return { grassLayer, plantsLayer };
     }
 
