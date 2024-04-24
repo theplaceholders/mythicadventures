@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AudioManager from '../utility/AudioManager';
 import { saveCharacter } from '../utility/saveCharacter';
+import { checkSlotNum } from '../utility/checkSlotNum';
 
 const CreateCharacter = ({ audioManager, onBack }) => {
   const [characterData, setCharacterData] = useState({
+    slotNum: 0,
     userId: '',
     characterName: '',
     characterClass: '',
@@ -12,7 +14,19 @@ const CreateCharacter = ({ audioManager, onBack }) => {
 
   // Initialize userId only once, when the component mounts
   useEffect(() => {
-    setCharacterData((prev) => ({ ...prev, userId: '123456789' }));
+    const initializeData = async () => {
+      const userId = '123456789'; // Define userId or retrieve it from somewhere
+      const slotCount = await checkSlotNum(userId); // Assume checkSlotNum is async
+      const slotNum = slotCount === 0 ? 1 : slotCount + 1; // If no slots, start at 1, else increment
+
+      setCharacterData((prev) => ({
+        ...prev,
+        userId: userId,
+        slotNum: slotNum,
+      }));
+    };
+
+    initializeData(); // Call the async function within useEffect
   }, []);
 
   return (
