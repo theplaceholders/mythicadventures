@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import AudioManager from '../utility/AudioManager';
 
 const CreateCharacter = ({audioManager, onBack}) => {
 
