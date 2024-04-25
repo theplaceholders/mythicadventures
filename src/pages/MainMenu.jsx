@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+function getUserProfile(userId){
+  if(userId){
+    return {id:"test123-1", class:"developer", race:"stoopid"}
+  }
+  return {}
+}
 
 export const MainMenu = ({
   audioManager,
-  onPlayGame,
-  onCreateCharacter,
+  userManager,
+  onSelectCharacter,
   onSettings,
 }) => {
+
+  useEffect(()=>{
+    const _devId = "test123-1"
+    const profile = getUserProfile(_devId)
+    if(profile){
+      userManager.setUserProfile(profile)
+    }
+  },[])
+
   return (
     <div className="main-menu">
       <h1 className="game-title">MYTHIC ADVENTURES</h1>
@@ -15,20 +31,10 @@ export const MainMenu = ({
           onMouseEnter={() => audioManager.playSFX('hover')}
           onClick={() => {
             audioManager.playSFX('click');
-            onPlayGame();
+              onSelectCharacter();
           }}
         >
           Play Game
-        </button>
-        <button
-          id="btnCreateCharacter"
-          onMouseEnter={() => audioManager.playSFX('hover')}
-          onClick={() => {
-            audioManager.playSFX('click');
-            onCreateCharacter();
-          }}
-        >
-          Create Character
         </button>
         <button
           id="btnSettings"
