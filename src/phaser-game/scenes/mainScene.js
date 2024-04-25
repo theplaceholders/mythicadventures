@@ -37,9 +37,6 @@ class MainScene extends Phaser.Scene {
         camera.setZoom(1.5);
         camera.startFollow(this.player.sprite);
     }
-
-
-
     update() {
         this.player.update(this.keys);
     }
