@@ -28,9 +28,6 @@ const CreateCharacter = ({ audioManager, onBack }) => {
 
     initializeData(); // Call the async function within useEffect
   }, []);
-import React from 'react';
-
-const CreateCharacter = ({audioManager, onBack}) => {
 
   return (
     <div className="characterInputs">
