@@ -6,9 +6,11 @@ import PhaserGame from './pages/PhaserGame'; // This would be your new component
 import AudioManager from './utility/AudioManager';
 
 import './styles/App.css';
+import SelectCharacter from './pages/SelectCharacter';
 
 function App() {
     const [currentPage, setCurrentPage] = useState('mainMenu');
+    const [userProfile, setUserProfile] = useState({})
     const audioManager = new AudioManager();
 
     const renderPage = () => {
@@ -16,8 +18,10 @@ function App() {
             case 'mainMenu':
                 return <MainMenu 
                     audioManager={audioManager}
+                    userManager={{userProfile, setUserProfile}}
                     onSettings={() => setCurrentPage('settings')} 
-                    onCreateCharacter={() => setCurrentPage('createCharacter')}
+                    // onCreateCharacter={() => setCurrentPage('createCharacter')}
+                    onSelectCharacter={() => setCurrentPage('selectCharacter')}
                     onPlayGame={() => setCurrentPage('playGame')}/>;
             case 'settings':
                 return <Settings 
@@ -26,9 +30,16 @@ function App() {
             case 'createCharacter':
                 return <CreateCharacter
                     audioManager={audioManager} 
-                    onBack={() => setCurrentPage('mainMenu')}/>;
+                    onBack={() => setCurrentPage('selectCharacter')}/>;
+            case 'selectCharacter':
+                return <SelectCharacter
+                    onCreateCharacter={() => setCurrentPage('createCharacter')}
+                    audioManager={audioManager}
+                    userManager={{userProfile, setUserProfile}} 
+                    onBack={() => setCurrentPage('mainMenu')}/>;  
             case 'playGame':
-                return <PhaserGame exitGame={() => setCurrentPage('mainMenu')} />;
+                return <PhaserGame 
+                    exitGame={() => setCurrentPage('mainMenu')} />;
             default:
                 return <MainMenu 
                     audioManager={audioManager}
