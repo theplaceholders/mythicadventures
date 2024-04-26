@@ -1,0 +1,18 @@
+{
+  "slot-3": {
+    "slotNum": 3,
+    "userId": "123456789",
+    "characterName": "Chris3",
+    "characterClass": "ranger",
+    "characterRace": "orc"
+  },
+  "playerData-3": {},
+  "slot-1": {
+    "slotNum": 1,
+    "userId": "123456789",
+    "characterName": "Chris1",
+    "characterClass": "warrior",
+    "characterRace": "human"
+  },
+  "playerData-1": {}
+}
