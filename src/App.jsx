@@ -30,7 +30,7 @@ function App() {
             case 'createCharacter':
                 return <CreateCharacter
                     audioManager={audioManager} 
-                    onBack={() => setCurrentPage('mainMenu')}/>;
+                    onBack={() => setCurrentPage('selectCharacter')}/>;
             case 'selectCharacter':
                 return <SelectCharacter
                     onCreateCharacter={() => setCurrentPage('createCharacter')}

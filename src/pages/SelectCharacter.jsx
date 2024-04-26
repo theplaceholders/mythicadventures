@@ -1,24 +1,32 @@
 import React from 'react';
 import "./selectCharacter.css"
 
-const CharacterCard = ({characterInfo}) => {
-  console.log(characterInfo)
+const CharacterCard = ({characterInfo, onCreateCharacter}) => {
+  characterInfo={}
   return(
     <div className='characterCardContainer'>
       <div className='characterCardIconContainer'>
-        <div>
-          <p>icon here</p>
-          <div className='characterIcon'>
-            <div/>
-            <div/>
-          </div>
-        </div>
+        {Object.keys(characterInfo).length? 
+          null 
+          :
+          <button className='characterIcon-button' onClick={() => onCreateCharacter()}>
+            <div className='characterIcon-addProfile'>
+              <div/>
+              <div/>
+            </div>
+            <h6>Create Character</h6>
+          </button>
+        }
       </div>
-      <div className='characterCardInfoContainter'>
-        <p>Name: {characterInfo.name}</p>
-        <p>Class: {characterInfo.class}</p>
-        <p>Race: {characterInfo.race}</p>
-      </div>
+      {Object.keys(characterInfo).length? 
+          <div className='characterCardInfoContainter'>
+            <p>Name: {characterInfo.name}</p>
+            <p>Class: {characterInfo.class}</p>
+            <p>Race: {characterInfo.race}</p>
+          </div> 
+          :
+          null
+        }
     </div>
   )
 }
@@ -29,12 +37,18 @@ const SelectCharacter = ({
   onCreateCharacter,
   onBack,
 }) => {
-  console.log(userManager)
-
   return (
       <div className="characterSelect">
-        <p>{JSON.stringify(userManager.userProfile)}</p>
-        <CharacterCard characterInfo={{...userManager.userProfile}}/>
+        <div className="characterSlots">
+          {[1,2,3].map((index)=>{
+            return(
+              <div>
+                <p>{`slot-${index}`}</p>
+                <CharacterCard characterInfo={{...userManager.userProfile}} onCreateCharacter={onCreateCharacter}/>
+              </div>
+            )
+          })}
+        </div>
         <button id="btnBack" onMouseEnter={() => audioManager.playSFX('hover')}
           onClick={() => {
             audioManager.playSFX('click');
