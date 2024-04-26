@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import AudioManager from '../utility/AudioManager';
 import { saveCharacter } from '../utility/saveCharacter';
-import { checkSlotNum } from '../utility/checkSlotNum';
 
-const CreateCharacter = ({ audioManager, onBack }) => {
+const CreateCharacter = ({ audioManager, onBack, slotIndex }) => {
   const [characterData, setCharacterData] = useState({
-    slotNum: 0,
+    slotNum: slotIndex,
     userId: '',
     characterName: '',
     characterClass: '',
@@ -16,13 +15,10 @@ const CreateCharacter = ({ audioManager, onBack }) => {
   useEffect(() => {
     const initializeData = async () => {
       const userId = '123456789'; // Define userId or retrieve it from somewhere
-      const slotCount = await checkSlotNum(userId); // Assume checkSlotNum is async
-      const slotNum = slotCount === 0 ? 1 : slotCount + 1; // If no slots, start at 1, else increment
-
       setCharacterData((prev) => ({
         ...prev,
         userId: userId,
-        slotNum: slotNum,
+        slotNum: slotIndex,
       }));
     };
 
@@ -58,7 +54,7 @@ const CreateCharacter = ({ audioManager, onBack }) => {
           }))
         }
       >
-        <option value="">Select Class</option> {/* Empty option */}
+        <option value="">Select Class</option> 
         <option value="warrior">Warrior</option>
         <option value="mage">Mage</option>
         <option value="ranger">Ranger</option>
@@ -76,7 +72,7 @@ const CreateCharacter = ({ audioManager, onBack }) => {
           }))
         }
       >
-        <option value="">Select Race</option> {/* Empty option */}
+        <option value="">Select Race</option> 
         <option value="human">Human</option>
         <option value="elf">Elf</option>
         <option value="orc">Orc</option>

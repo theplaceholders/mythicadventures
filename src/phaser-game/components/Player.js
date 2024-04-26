@@ -27,28 +27,35 @@ export default class Player {
 
     update(keys) {
         this.updateRotationToMouse();
-        if (this.isMoving) {
-            this.moveTowardsTarget();
-        }
+        // if (this.isMoving) {
+        //     this.moveTowardsTarget();
+        // }
         this.handleKeyboardInput(keys);
     }
     updateRotationToMouse() {
+        const camera = this.scene.cameras.main;
         const pointer = this.scene.input.activePointer;
-        const angle = Phaser.Math.Angle.Between(this.sprite.x, this.sprite.y, pointer.worldX, pointer.worldY);
+
+        const cameraRelativeX = pointer.x + camera.scrollX;
+        const cameraRelativeY = pointer.y + camera.scrollY;
+    
+        const angle = Phaser.Math.Angle.Between(this.sprite.x, this.sprite.y, cameraRelativeX, cameraRelativeY);
         this.sprite.rotation = angle;
     }
-    moveTowardsTarget() {
-        const reachedX = Math.abs(this.sprite.x - this.targetX) < 5;
-        const reachedY = Math.abs(this.sprite.y - this.targetY) < 5;
-        if (reachedX && reachedY) {
-            this.sprite.setVelocity(0, 0);
-            this.isMoving = false;
-        } else {
-            const angle = Phaser.Math.Angle.Between(this.sprite.x, this.sprite.y, this.targetX, this.targetY);
-            this.sprite.setVelocityX(200 * Math.cos(angle));
-            this.sprite.setVelocityY(200 * Math.sin(angle));
-        }
-    }
+    
+    // moveTowardsTarget() {
+    //     const reachedX = Math.abs(this.sprite.x - this.targetX) < 5;
+    //     const reachedY = Math.abs(this.sprite.y - this.targetY) < 5;
+    //     console.log(`Moving to (${this.targetX}, ${this.targetY}) from (${this.sprite.x}, ${this.sprite.y}). Reached: ${reachedX && reachedY}`);
+    //     if (reachedX && reachedY) {
+    //         this.sprite.setVelocity(0, 0);
+    //         this.isMoving = false;
+    //     } else {
+    //         const angle = Phaser.Math.Angle.Between(this.sprite.x, this.sprite.y, this.targetX, this.targetY);
+    //         this.sprite.setVelocityX(200 * Math.cos(angle));
+    //         this.sprite.setVelocityY(200 * Math.sin(angle));
+    //     }
+    // }
 
     handleKeyboardInput(keys) {
         let vx = 0;

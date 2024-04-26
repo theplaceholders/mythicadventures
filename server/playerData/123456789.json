@@ -1,18 +1,18 @@
 {
-  "slot-3": {
-    "slotNum": 3,
-    "userId": "123456789",
-    "characterName": "Chris3",
-    "characterClass": "ranger",
-    "characterRace": "orc"
-  },
-  "playerData-3": {},
   "slot-1": {
     "slotNum": 1,
     "userId": "123456789",
-    "characterName": "Chris1",
+    "characterName": "Beasted",
     "characterClass": "warrior",
     "characterRace": "human"
   },
-  "playerData-1": {}
+  "playerData-1": {},
+  "slot-3": {
+    "slotNum": 3,
+    "userId": "123456789",
+    "characterName": "DragonBoy",
+    "characterClass": "warrior",
+    "characterRace": "human"
+  },
+  "playerData-3": {}
 }
