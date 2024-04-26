@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { getUserProfiles } from '../utility/getUserProfiles';
 
-function getUserProfile(userId){
-  if(userId){
-    return {id:"test123-1", class:"developer", race:"stoopid"}
-  }
-  return {}
-}
+
 
 export const MainMenu = ({
   audioManager,
@@ -14,13 +10,17 @@ export const MainMenu = ({
   onSettings,
 }) => {
 
-  useEffect(()=>{
-    const _devId = "test123-1"
-    const profile = getUserProfile(_devId)
-    if(profile){
-      userManager.setUserProfile(profile)
-    }
-  },[])
+  useEffect(() => {
+    const userId = "123456789";
+    const fetchData = async () => {
+      const profiles = await getUserProfiles(userId);
+      console.log(profiles);
+      if (profiles) {
+        userManager.setUserProfile(profiles);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="main-menu">

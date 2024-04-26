@@ -30,7 +30,7 @@ app.post('/save-player-data', (req, res) => {
       }
   
       // Format or update the data
-      const updatedSlotData = formatSlotData(data);
+      const updatedSlotData = formatSlotData(data); 
       currentData = { ...currentData, ...updatedSlotData };
       console.log("Current Data before merge:", currentData);
       console.log("Updated Slot Data:", updatedSlotData);
