@@ -5,8 +5,12 @@ const bodyParser = require('body-parser');
 const {formatSlotData} = require('./server-utility/formatSlotData')
 const app = express();
 const PORT = 3001;
-const cors = require('cors');
+const cors = require('cors'); 
+const dotenv = require('dotenv');
+dotenv.config();
 
+
+console.log(process.env.VITE_DISCORD_CLIENT_ID, "consoling");
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 app.use(cors());
@@ -102,6 +106,43 @@ app.post('/save-player-data', (req, res) => {
     });
 });
 
+app.post('/get-token', async (req, res) => {
+  const fetch = (await import('node-fetch')).default;
+
+  const { code } = req.body;
+
+  if (!code) {
+    return res.status(400).send('No authorization code provided.');
+  }
+  const params = new URLSearchParams({
+    client_id: process.env.VITE_DISCORD_CLIENT_ID,
+    client_secret: process.env.DISCORD_CLIENT_SECRET,
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: process.env.REDIRECT_URI,
+    scope: 'embedsdk', 
+  });
+  console.log(params, "this is params")
+  try {
+    console.log("attempting to fetch")
+    const response = await fetch('https://discord.com/api/oauth2/token', {
+      method: 'POST',
+      body: params,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+    const data = await response.json();
+    if (response.ok) {
+      res.json({ accessToken: data.access_token });
+    } else {
+      throw new Error(data.error_description || 'Failed to fetch access token');
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+  console.log("end of try catch")
+});
   
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
