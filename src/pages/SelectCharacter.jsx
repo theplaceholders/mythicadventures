@@ -1,5 +1,5 @@
 import React from 'react';
-import "./selectCharacter.css"
+import "./SelectCharacter.css"
 
 const CharacterCard = ({ characterData, onCreateCharacter, slotIndex }) => {
   console.log(characterData);
