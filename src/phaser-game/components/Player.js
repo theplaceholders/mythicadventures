@@ -8,6 +8,11 @@ export default class Player {
         this.sprite.body.setSize(20, 18);
         this.sprite.body.setOffset(6, 40);
         this.sprite.setDepth(400);
+        this.sprite.setScale(0.5);
+
+        // Create and apply a circular mask
+        this.createCircleMask(25);
+
         this.scene.input.on('pointerdown', (pointer) => {
             this.targetX = pointer.worldX;
             this.targetY = pointer.worldY;
@@ -17,6 +22,22 @@ export default class Player {
             this.updateRotationToMouse(pointer);
         });
         this.isMoving = false;
+    }
+    createCircleMask(radius) {
+        this.maskGraphics = this.scene.make.graphics();
+        this.maskGraphics.fillStyle(0xffffff);
+        this.maskGraphics.beginPath();
+        this.maskGraphics.arc(0, 0, radius, 0, Math.PI * 2); // Adjust the radius as needed
+        this.maskGraphics.fillPath();
+        this.maskGraphics.closePath();
+
+        const mask = this.maskGraphics.createGeometryMask();
+        this.sprite.setMask(mask);
+        this.maskGraphics.setPosition(this.sprite.x, this.sprite.y);
+    }
+
+    updateMask() {
+        this.maskGraphics.setPosition(this.sprite.x, this.sprite.y);
     }
 
     updateLastAngle() {
@@ -31,6 +52,7 @@ export default class Player {
         //     this.moveTowardsTarget();
         // }
         this.handleKeyboardInput(keys);
+        this.updateMask();
     }
     updateRotationToMouse() {
         const camera = this.scene.cameras.main;

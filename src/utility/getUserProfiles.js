@@ -1,8 +1,11 @@
+import API_URL from "./API-URL";
 
-
-export const getUserProfiles = async (userId) => {
+export const getUserProfiles = async (userId, debugLog) => {
     try {
-      const response = await fetch(`http://localhost:3001/get-slot-data/${userId}`);
+      await debugLog('trying to fetch hello', 'checking')
+      
+      const response = await fetch(`${API_URL}/get-slot-data/${userId}`);
+      await debugLog('this is response', response)
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

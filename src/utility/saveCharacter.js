@@ -1,6 +1,7 @@
+import API_URL from "./API-URL";
 export const saveCharacter = async (characterData) => {
     try {
-      const response = await fetch('http://localhost:3001/save-player-data', {
+      const response = await fetch(`${API_URL}/save-player-data`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
