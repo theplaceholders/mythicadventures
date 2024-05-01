@@ -71,7 +71,7 @@ import API_URL from './utility/API-URL';
       case 'settings':
         return <Settings audioManager={audioManager} onBack={() => setCurrentPage('mainMenu')} />;
       case 'createCharacter':
-        return <CreateCharacter slotIndex={characterCreationSlot} audioManager={audioManager} onBack={() => {setCharacterCreationSlot(null); setCurrentPage('selectCharacter');}} />;
+        return <CreateCharacter auth={auth}slotIndex={characterCreationSlot} audioManager={audioManager} onBack={() => {setCharacterCreationSlot(null); setCurrentPage('selectCharacter');}} />;
       case 'selectCharacter':
         return <SelectCharacter onCreateCharacter={(slotIndex) => {setCharacterCreationSlot(slotIndex); setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ userProfile, setUserProfile }} onBack={() => setCurrentPage('playGame')} />;
       case 'playGame':

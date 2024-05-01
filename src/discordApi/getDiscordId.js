@@ -1,4 +1,3 @@
-
 export async function getDiscordId(accessToken) {
 
     const url = 'https://discord.com/api/users/@me';
@@ -14,8 +13,8 @@ export async function getDiscordId(accessToken) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const data = await response.json();
+        console.log(data, "this is data")
         return data;  
     } catch (error) {
         console.error('Failed to fetch Discord ID:', error);
