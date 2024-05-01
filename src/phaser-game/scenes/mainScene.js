@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import Player from '../components/Player.js';
-import playerSheet from '../sprites/TX Player.png';
 import GameMap from '../maps/GameMap.js';
 import UIManager from '../ui/UIManager.js'; // Import UIManager
 
@@ -11,13 +10,15 @@ class MainScene extends Phaser.Scene {
         this.uiManager = new UIManager(this);
     }
     preload() {
-        this.load.spritesheet('playerSheet', playerSheet, { frameWidth: 32, frameHeight: 64 });
+        this.load.image('playerSprite', 'https://cdn.discordapp.com/avatars/606974608662331400/900cb74b8d7522e9542f80e7dfd8f575.png');
+        this.load.plugin('rexCircleMaskImagePlugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexcirclemaskimageplugin.min.js', true);
         this.gameMap.preload();
     }
 
     create() {
         this.uiManager.setupUI();
-        this.player = new Player(this, 100, 400, 'playerSheet');
+
+        this.player = new Player(this, 100, 400, 'playerSprite');
         const { grassLayer, plantsLayer } = this.gameMap.create();
         this.gameMap.getScene().physics.add.collider(this.player.sprite, plantsLayer);
         
@@ -39,6 +40,7 @@ class MainScene extends Phaser.Scene {
     }
     update() {
         this.player.update(this.keys);
+        
     }
 }
 
