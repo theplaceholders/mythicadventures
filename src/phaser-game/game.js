@@ -12,6 +12,7 @@ export function startGame(width, height, onGameExit) {
                 debug: true
             }
         },
+        
         scene: [MainScene, SettingsScene,],
     };
 

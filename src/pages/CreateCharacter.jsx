@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AudioManager from '../utility/AudioManager';
 import { saveCharacter } from '../utility/saveCharacter';
-
-const CreateCharacter = ({ audioManager, onBack, slotIndex }) => {
+import { getDiscordId } from '../discordApi/getDiscordId';
+import { useDebugLog } from '../utility/DebugLog';
+const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
   const [characterData, setCharacterData] = useState({
     slotNum: slotIndex,
     userId: '',
@@ -11,10 +12,11 @@ const CreateCharacter = ({ audioManager, onBack, slotIndex }) => {
     characterRace: '',
   });
 
-  // Initialize userId only once, when the component mounts
   useEffect(() => {
     const initializeData = async () => {
-      const userId = '123456789'; // Define userId or retrieve it from somewhere
+      
+      const userId = await getDiscordId(auth)
+
       setCharacterData((prev) => ({
         ...prev,
         userId: userId,
