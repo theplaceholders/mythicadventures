@@ -1,0 +1,10 @@
+{
+  "slot-1": {
+    "slotNum": 1,
+    "userId": null,
+    "characterName": "Chris1",
+    "characterClass": "warrior",
+    "characterRace": "human"
+  },
+  "playerData-1": {}
+}

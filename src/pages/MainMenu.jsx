@@ -17,7 +17,7 @@ export const MainMenu = ({
       debugLog(auth, "this is auth")
       const userData = await getDiscordId(auth)
       debugLog(JSON.stringify(userData), "this is user data")
-      const profiles = await getUserProfiles(userData.userId, debugLog);
+      const profiles = await getUserProfiles(userData.id, debugLog);
       console.log(profiles);
       if (profiles) {
         userManager.setUserProfile(profiles);

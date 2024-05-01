@@ -3,6 +3,7 @@ import AudioManager from '../utility/AudioManager';
 import { saveCharacter } from '../utility/saveCharacter';
 import { getDiscordId } from '../discordApi/getDiscordId';
 import { useDebugLog } from '../utility/DebugLog';
+import { getDiscordProfilePic } from '../discordApi/getDiscordProfilePic';
 const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
   const [characterData, setCharacterData] = useState({
     slotNum: slotIndex,
@@ -11,25 +12,34 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
     characterClass: '',
     characterRace: '',
   });
-
+  const debugLog = useDebugLog()
   useEffect(() => {
     const initializeData = async () => {
-      
-      const userId = await getDiscordId(auth)
-
+      const userData = await getDiscordId(auth);
+      const userId = userData.id
+      const avatarHash = userData.avatar
+      let imageUrl = await getDiscordProfilePic(userId, avatarHash, debugLog)
       setCharacterData((prev) => ({
         ...prev,
         userId: userId,
         slotNum: slotIndex,
+        imageUrl: imageUrl,
       }));
     };
 
     initializeData(); // Call the async function within useEffect
   }, []);
 
+  const auraClass = `aura-${characterData.characterClass}`;
+
   return (
     <div className="characterInputs">
       <h1>Create Your Character</h1>
+      {
+        
+      }
+      <img className={`profilePic ${auraClass}`} src={characterData.imageUrl} alt="Character" />
+      
       <label htmlFor="characterName">Name:</label>
       <input
         type="text"
@@ -56,7 +66,7 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
           }))
         }
       >
-        <option value="">Select Class</option> 
+        <option value="">Select Class</option>
         <option value="warrior">Warrior</option>
         <option value="mage">Mage</option>
         <option value="ranger">Ranger</option>
@@ -74,7 +84,7 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
           }))
         }
       >
-        <option value="">Select Race</option> 
+        <option value="">Select Race</option>
         <option value="human">Human</option>
         <option value="elf">Elf</option>
         <option value="orc">Orc</option>

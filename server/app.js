@@ -80,6 +80,7 @@ app.post('/save-player-data', (req, res) => {
 
   app.get('/get-slot-data/:userId', (req, res) => {
     const userId = req.params.userId;
+    console.log(userId, "this is user id")
     const filePath = path.join(__dirname, 'playerData', `${userId}.json`);
     
     fs.readFile(filePath, { encoding: 'utf8' }, (err, fileContents) => {
