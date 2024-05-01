@@ -26,7 +26,13 @@ body {
   overflow-x: hidden;
 }
 
-
+img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  border-radius: 50%;
+}
 
 h1 {
   user-select: none;
@@ -45,9 +51,27 @@ button {
   cursor: url('./assets/images/cursor.svg'), auto;
   display: flex;
   justify-content: center;
-  align-items: left;
+  align-items: center;
   flex-direction: column;
   overflow: hidden;
+}
+.profilePic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Makes the image round */
+}
+
+/* Aura styles for each character class */
+.aura-warrior {
+  box-shadow: 0 0 15px 5px red; /* Red aura for warriors */
+}
+
+.aura-mage {
+  box-shadow: 0 0 15px 5px blue; /* Blue aura for mages */
+}
+
+.aura-ranger {
+  box-shadow: 0 0 15px 5px green; /* Green aura for rangers */
 }
 .main-menu {
   cursor: url('./assets/images/cursor.svg'), auto;
