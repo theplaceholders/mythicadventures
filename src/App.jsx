@@ -14,10 +14,6 @@ import API_URL from './utility/API-URL';
   const [currentPage, setCurrentPage] = useState('mainMenu');
   const [userProfile, setUserProfile] = useState({});
   const [auth, setAuth] = useState();
-  const [avatarUrl, setAvatarUrl] = useState('');
-  const handleSetAvatarUrl = (url) => {
-    setAvatarUrl(url);
-  };
   const audioManager = new AudioManager();
   useEffect( () => {
     
@@ -75,7 +71,7 @@ import API_URL from './utility/API-URL';
       case 'settings':
         return <Settings audioManager={audioManager} onBack={() => setCurrentPage('mainMenu')} />;
       case 'createCharacter':
-        return <CreateCharacter setAvatarUrl={handleSetAvatarUrl} auth={auth}slotIndex={characterCreationSlot} audioManager={audioManager} onBack={() => {setCharacterCreationSlot(null); setCurrentPage('selectCharacter');}} />;
+        return <CreateCharacter auth={auth}slotIndex={characterCreationSlot} audioManager={audioManager} onBack={() => {setCharacterCreationSlot(null); setCurrentPage('selectCharacter');}} />;
       case 'selectCharacter':
         return <SelectCharacter onCreateCharacter={(slotIndex) => {setCharacterCreationSlot(slotIndex); setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ userProfile, setUserProfile }} onBack={() => setCurrentPage('playGame')} />;
       case 'playGame':

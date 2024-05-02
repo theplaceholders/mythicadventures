@@ -21,7 +21,6 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex, setAvatarUrl  
       const userName = userData.username
       let imageUrl = await getDiscordProfilePic(userId, avatarHash,userName, debugLog)
       debugLog(imageUrl, "this is url in create character")
-      setAvatarUrl(imageUrl);
       window.playerAvatarUrl = imageUrl;
       setCharacterData((prev) => ({
         ...prev,

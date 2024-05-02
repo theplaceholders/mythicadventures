@@ -10,9 +10,6 @@ class MainScene extends Phaser.Scene {
         this.uiManager = new UIManager(this);
     }
 
-    init(data) {
-        this.avatarUrl = data.avatarUrl || 'default_avatar_url.png';
-    }
     preload() {
         const avatarUrl = window.playerAvatarUrl || 'default_avatar_url.png';
         this.load.image('playerSprite', avatarUrl);
