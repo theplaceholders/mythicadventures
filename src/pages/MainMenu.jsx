@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getUserProfiles } from '../utility/getUserProfiles';
 import { useDebugLog } from '../utility/DebugLog';
 import { getDiscordId } from '../discordApi/getDiscordId';
-
+import { getDiscordProfilePic } from '../discordApi/getDiscordProfilePic';
 export const MainMenu = ({
   audioManager,
   userManager,
@@ -10,12 +10,20 @@ export const MainMenu = ({
   onSettings,
   auth
 }) => {
+  const [profilePic, setProfilePic] = useState()
   const debugLog = useDebugLog();
   useEffect(() => {
     const fetchData = async () => {
-
+      
       debugLog(auth, "this is auth")
       const userData = await getDiscordId(auth)
+      debugLog(JSON.stringify(userData))
+      const userId = userData.id
+      const avatarHash = userData.avatar
+      const userName = userData.username
+      let imageUrl = await getDiscordProfilePic(userId, avatarHash, userName, debugLog)
+      debugLog(imageUrl)
+      setProfilePic(imageUrl)
       debugLog(JSON.stringify(userData), "this is user data")
       const profiles = await getUserProfiles(userData.id, debugLog);
       console.log(profiles);
@@ -29,8 +37,7 @@ export const MainMenu = ({
   return (
     <div className="main-menu">
       <h1 className="game-title">MYTHIC ADVENTURES</h1>
-      <img src="https://cdn.discordapp.com/avatars/606974608662331400/900cb74b8d7522e9542f80e7dfd8f575.png"/>
-
+      <img src={profilePic}/>
       <nav>
         <button
           id="btnPlayGame"

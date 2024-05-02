@@ -75,7 +75,7 @@ import API_URL from './utility/API-URL';
       case 'selectCharacter':
         return <SelectCharacter onCreateCharacter={(slotIndex) => {setCharacterCreationSlot(slotIndex); setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ userProfile, setUserProfile }} onBack={() => setCurrentPage('playGame')} />;
       case 'playGame':
-        return <PhaserGame exitGame={() => setCurrentPage('mainMenu')} />;
+        return <PhaserGame avatarUrl={avatarUrl} exitGame={() => setCurrentPage('mainMenu')} />;
       default:
         return <MainMenu audioManager={audioManager} onSettings={() => setCurrentPage('settings')} />;
     }
