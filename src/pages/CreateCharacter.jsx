@@ -5,6 +5,7 @@ import { getDiscordId } from '../discordApi/getDiscordId';
 import { useDebugLog } from '../utility/DebugLog';
 import { getDiscordProfilePic } from '../discordApi/getDiscordProfilePic';
 const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
+  const [isImgLoaded, setIsImgLoaded] = useState(false)
   const [characterData, setCharacterData] = useState({
     slotNum: slotIndex,
     userId: '',
@@ -35,10 +36,10 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
   return (
     <div className="characterInputs">
       <h1>Create Your Character</h1>
-      {
-        
+      {isImgLoaded? null :
+      <h2>Loading ...</h2>
       }
-      <img className={`profilePic ${auraClass}`} src={characterData.imageUrl} alt="Character" />
+      <img className={`profilePic ${auraClass}`} src={characterData.imageUrl} alt="Character" onLoad={()=> setIsImgLoaded(true)}/>
       
       <label htmlFor="characterName">Name:</label>
       <input
