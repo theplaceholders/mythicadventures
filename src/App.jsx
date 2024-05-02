@@ -16,9 +16,7 @@ import API_URL from './utility/API-URL';
   const [auth, setAuth] = useState();
   const audioManager = new AudioManager();
   useEffect( () => {
-    
     const discordSdk = new DiscordSDK(import.meta.env.VITE_DISCORD_CLIENT_ID);
-    
     const setupDiscordSdk = async () => {
       await discordSdk.ready();
       console.log("Discord SDK is ready");
