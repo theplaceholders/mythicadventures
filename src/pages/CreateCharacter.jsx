@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import AudioManager from '../utility/AudioManager';
 import { saveCharacter } from '../utility/saveCharacter';
 import { getDiscordId } from '../discordApi/getDiscordId';
 import { useDebugLog } from '../utility/DebugLog';
 import { getDiscordProfilePic } from '../discordApi/getDiscordProfilePic';
+
 const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
+
   const [isImgLoaded, setIsImgLoaded] = useState(false)
   const [characterData, setCharacterData] = useState({
     slotNum: slotIndex,
@@ -13,7 +14,9 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
     characterClass: '',
     characterRace: '',
   });
+
   const debugLog = useDebugLog()
+  
   useEffect(() => {
     const initializeData = async () => {
       const userData = await getDiscordId(auth);
