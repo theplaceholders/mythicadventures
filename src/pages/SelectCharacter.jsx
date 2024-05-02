@@ -2,28 +2,39 @@ import React from 'react';
 import "./SelectCharacter.css"
 
 const CharacterCard = ({ characterData, onCreateCharacter, slotIndex }) => {
-  console.log(characterData);
-  const handleCreateClick = () => {
-    onCreateCharacter(slotIndex);
+
+  const handleSelectButtonClick = ({isCreateCharacter}) => {
+    if(isCreateCharacter)
+      onCreateCharacter(slotIndex);
+    
   };
+
   return(
     <div className='characterCardContainer'>
       {characterData ? (
-        <div className='characterCardInfoContainer'>
-          <p>Name: {characterData.characterName}</p>
-          <p>Class: {characterData.characterClass}</p>
-          <p>Race: {characterData.characterRace}</p>
-        </div>
-      ) : (
-        <div className='characterCardIconContainer'>
-          <button className='characterIcon-button' onClick={handleCreateClick}>
+        <button className="characterSelectButton" onClick={()=>handleSelectButtonClick({"isCreateCharacter":false})}>
+          <div className='characterCardIconContainer'>
             <div className='characterIcon-addProfile'>
               <div />
               <div />
             </div>
-            <h6>Create Character</h6>
-          </button>
-        </div>
+          </div>
+          <div className='characterCardInfoContainer'>
+            <p>Name: {characterData.characterName}</p>
+            <p>Class: {characterData.characterClass}</p>
+            <p>Race: {characterData.characterRace}</p>
+          </div>
+        </button>
+      ) : (
+        <button className='characterSelectButton' onClick={()=>handleSelectButtonClick({"isCreateCharacter":true})}>
+          <div className='characterCardIconContainer'>
+            <div className='characterIcon-addProfile'>
+              <div />
+              <div />
+            </div>
+            <h4>Create Character</h4>
+          </div>
+        </button>
       )}
     </div>
   );

@@ -13,6 +13,7 @@ import API_URL from './utility/API-URL';
   const [characterCreationSlot, setCharacterCreationSlot] = useState(null);
   const [currentPage, setCurrentPage] = useState('mainMenu');
   const [userProfile, setUserProfile] = useState({});
+  const [isLoading, setIsLoading] = useState(true)
   const [auth, setAuth] = useState();
   const audioManager = new AudioManager();
   useEffect( () => {
@@ -49,6 +50,7 @@ import API_URL from './utility/API-URL';
 
         if (authenticated) {
           setAuth(accessToken);
+          setIsLoading(false)
           console.log("Discord SDK is authenticated");
         } else {
           throw new Error("Authentication failed");
@@ -70,7 +72,7 @@ import API_URL from './utility/API-URL';
       case 'createCharacter':
         return <CreateCharacter auth={auth}slotIndex={characterCreationSlot} audioManager={audioManager} onBack={() => {setCharacterCreationSlot(null); setCurrentPage('selectCharacter');}} />;
       case 'selectCharacter':
-        return <SelectCharacter onCreateCharacter={(slotIndex) => {setCharacterCreationSlot(slotIndex); setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ userProfile, setUserProfile }} onBack={() => setCurrentPage('playGame')} />;
+        return <SelectCharacter onCreateCharacter={(slotIndex) => {setCharacterCreationSlot(slotIndex); setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ userProfile, setUserProfile }} onBack={() => setCurrentPage('mainMenu')} />;
       case 'playGame':
         return <PhaserGame exitGame={() => setCurrentPage('mainMenu')} />;
       default:
@@ -81,7 +83,7 @@ import API_URL from './utility/API-URL';
   return (
     <div className="App">
       <DebugProvider>
-        {renderPage()}
+        {isLoading? <h1>Loading......</h1> : renderPage()}
         <DebugLogWindow />
       </DebugProvider>
     </div>
