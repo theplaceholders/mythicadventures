@@ -9,16 +9,21 @@ class MainScene extends Phaser.Scene {
         this.gameMap = new GameMap(this);
         this.uiManager = new UIManager(this);
     }
+
+    init(data) {
+        this.avatarUrl = data.avatarUrl || 'default_avatar_url.png';
+    }
     preload() {
-        this.load.image('playerSprite', 'https://cdn.discordapp.com/avatars/606974608662331400/900cb74b8d7522e9542f80e7dfd8f575.png');
+        const avatarUrl = window.playerAvatarUrl || 'default_avatar_url.png';
+        this.load.image('playerSprite', avatarUrl);
         this.load.plugin('rexCircleMaskImagePlugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexcirclemaskimageplugin.min.js', true);
         this.gameMap.preload();
     }
 
     create() {
         this.uiManager.setupUI();
-
-        this.player = new Player(this, 100, 400, 'playerSprite');
+        const isCustom = this.isCustomAvatar(this.avatarUrl);
+        this.player = new Player(this, 100, 400, 'playerSprite', isCustom);
         const { grassLayer, plantsLayer } = this.gameMap.create();
         this.gameMap.getScene().physics.add.collider(this.player.sprite, plantsLayer);
         
@@ -30,7 +35,12 @@ class MainScene extends Phaser.Scene {
             w: 'W', a: 'A', s: 'S', d: 'D', esc: 'ESC'
         });
     }
-
+     isCustomAvatar(avatarUrl) {
+        // Check if the URL contains the 'embed/avatars' segment which indicates a default avatar
+        const isDefault = avatarUrl.includes('embed/avatars');
+        // Return true if it's not a default avatar, meaning it's a custom avatar
+        return !isDefault;
+    }
     setupCamera() {
         const camera = this.cameras.main;
         const { width, height } = this.gameMap.getMapDimensions();

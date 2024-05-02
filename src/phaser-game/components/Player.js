@@ -1,14 +1,19 @@
 import Phaser from 'phaser';
 
 export default class Player {
-    constructor(scene, x, y, texture) {
+    constructor(scene, x, y, texture, isCustom) {
         this.scene = scene;
         this.sprite = scene.physics.add.sprite(x, y, texture).setOrigin(0.5, 0.5);
         this.sprite.setCollideWorldBounds(true);
         this.sprite.body.setSize(20, 18);
         this.sprite.body.setOffset(6, 40);
         this.sprite.setDepth(400);
-        this.sprite.setScale(0.5);
+        if(!isCustom) {
+            this.sprite.setScale(0.5);
+        } else {
+            this.sprite.setScale(0.2);
+        }
+        
 
         // Create and apply a circular mask
         this.createCircleMask(25);

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { startGame } from '../phaser-game/game';
 
-const PhaserGame = ({ exitGame }) => {
+const PhaserGame = ({ exitGame, avatarUrl }) => {
   useEffect(() => {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    startGame(width, height, exitGame);
+    startGame(width, height, exitGame, avatarUrl);
 
     return () => {
 
