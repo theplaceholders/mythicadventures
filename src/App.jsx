@@ -43,7 +43,6 @@ import API_URL from './utility/API-URL';
 
         const data  = await response.json();
         const accessToken = data.accessToken
-        console.log(data.accessToken)
         const authenticated = await discordSdk.commands.authenticate({
           access_token: accessToken
         });
