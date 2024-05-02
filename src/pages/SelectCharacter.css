@@ -21,10 +21,6 @@
     flex-direction: column;
 }
 
-.characterCardContainer > button{
-    
-}
-
 .characterCardIconContainer{
     display: flex;
     flex-direction: column;
