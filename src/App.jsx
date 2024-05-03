@@ -70,6 +70,12 @@ import { getDiscordProfilePic } from './discordApi/getDiscordProfilePic';
      setupDiscordSdk();
   }, []); 
 
+  async function updateUserProfile(){
+    const profile = await getUserProfiles(user.userData.id);
+    setUser(prev=>({...prev, profile:profile}))
+    console.log(JSON.stringify(profile))
+  }
+
   const renderPage = () => {
     switch (currentPage) {
       case 'mainMenu':
@@ -77,9 +83,9 @@ import { getDiscordProfilePic } from './discordApi/getDiscordProfilePic';
       case 'settings':
         return <Settings audioManager={audioManager} onBack={() => setCurrentPage('mainMenu')} />;
       case 'createCharacter':
-        return <CreateCharacter userManager={{user, setUser}} audioManager={audioManager} onBack={() => {setUser(prev=>({...prev, slotNum:null})); setCurrentPage('selectCharacter');}} />;
+        return <CreateCharacter userManager={{user, setUser}} audioManager={audioManager} onBack={() => {setUser(prev=>({...prev, slotNum:null})); updateUserProfile(); setCurrentPage('selectCharacter');}} />;
       case 'selectCharacter':
-        return <SelectCharacter onCreateCharacter={(slotIndex) => {setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ user, setUser }} onBack={() => setCurrentPage('mainMenu')} />;
+        return <SelectCharacter onCreateCharacter={(slotIndex) => {setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ user, setUser }} onBack={() => setCurrentPage('mainMenu')} onPlayGame={()=> setCurrentPage('playGame')}/>;
       case 'playGame':
         return <PhaserGame exitGame={() => setCurrentPage('mainMenu')} />;
       default:

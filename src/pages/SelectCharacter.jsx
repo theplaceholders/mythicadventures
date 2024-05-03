@@ -1,20 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./SelectCharacter.css"
 
-const CharacterCard = ({setUser, characterData, onCreateCharacter, slotIndex }) => {
-
-  const handleSelectButtonClick = ({isCreateCharacter}) => {
-    if(isCreateCharacter){
-      setUser(prev=>{console.log(JSON.stringify({...prev, slotNum:slotIndex}));return ({...prev, slotNum:slotIndex})})
-      onCreateCharacter();
-    }
-    
-  };
+const CharacterCard = ({characterData, slotIndex, handleSelectButtonClick }) => {
 
   return(
     <div className='characterCardContainer'>
       {characterData ? (
-        <button className="characterSelectButton" onClick={()=>handleSelectButtonClick({"isCreateCharacter":false})}>
+        <button className="characterSelectButton" onClick={()=>handleSelectButtonClick({"isCreateCharacter":false, slotIndex})}>
           <div className='characterCardIconContainer'>
             <div className='characterIcon-addProfile'>
               <div />
@@ -28,7 +20,7 @@ const CharacterCard = ({setUser, characterData, onCreateCharacter, slotIndex }) 
           </div>
         </button>
       ) : (
-        <button className='characterSelectButton' onClick={()=>handleSelectButtonClick({"isCreateCharacter":true})}>
+        <button className='characterSelectButton' onClick={()=>handleSelectButtonClick({"isCreateCharacter":true, slotIndex})}>
           <div className='characterCardIconContainer'>
             <div className='characterIcon-addProfile'>
               <div />
@@ -48,18 +40,33 @@ const SelectCharacter = ({
   onCreateCharacter,
   audioManager,
   onBack,
+  onPlayGame
 }) => {
+  
+
+  const{ user, setUser } = userManager
   let characterInfo = userManager.user.profile;
   if (!characterInfo) {
     return <div>Loading...</div>; // Placeholder for when data is not yet available
   }
+
+  const handleSelectButtonClick = ({isCreateCharacter, slotIndex}) => {
+    if(isCreateCharacter){
+      setUser(prev=>{console.log(JSON.stringify({...prev, slotNum:slotIndex}));return ({...prev, slotNum:slotIndex})})
+      onCreateCharacter();
+    } else {
+      setUser(prev=>({...prev, currentSlot:slotIndex}))
+      onPlayGame()
+    }
+    
+  };
 
   const slots = [1, 2, 3].map(index => {
     const characterData = characterInfo[`slot-${index}`];
     return (
       <div key={`slot-${index}`}>
         <p>{`Slot ${index}`}</p>
-        <CharacterCard setUser={userManager.setUser} characterData={characterData} onCreateCharacter={onCreateCharacter} slotIndex={index}/>
+        <CharacterCard characterData={characterData} slotIndex={index} handleSelectButtonClick={handleSelectButtonClick}/>
       </div>
     );
   });

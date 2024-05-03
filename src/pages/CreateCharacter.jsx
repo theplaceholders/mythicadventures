@@ -73,7 +73,7 @@ const CreateCharacter = ({userManager, audioManager, onBack }) => {
       </select>
 
       <button
-        id="btnContinue"
+        id="btnSave"
         onMouseEnter={() => audioManager.playSFX('hover')}
         onClick={() => {
           audioManager.playSFX('click');
@@ -81,7 +81,7 @@ const CreateCharacter = ({userManager, audioManager, onBack }) => {
           onBack();
         }}
       >
-        Continue
+        Save
       </button>
 
       <button
