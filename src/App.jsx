@@ -87,7 +87,7 @@ import { getDiscordProfilePic } from './discordApi/getDiscordProfilePic';
       case 'selectCharacter':
         return <SelectCharacter onCreateCharacter={(slotIndex) => {setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ user, setUser }} onBack={() => setCurrentPage('mainMenu')} onPlayGame={()=> setCurrentPage('playGame')} updateUserProfile={updateUserProfile}/>;
       case 'playGame':
-        return <PhaserGame exitGame={() => setCurrentPage('mainMenu')} />;
+        return <PhaserGame avatarUrl={avatarUrl} exitGame={() => setCurrentPage('mainMenu')} />;
       default:
         return <MainMenu audioManager={audioManager} onSettings={() => setCurrentPage('settings')} />;
     }

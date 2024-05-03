@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { saveCharacter } from '../utility/saveCharacter';
 
-const CreateCharacter = ({userManager, audioManager, onBack }) => {
+const CreateCharacter = ({userManager, audioManager, onBack, setAvatarUrl }) => {
   const {user, setUser} = userManager
   const [isImgLoaded, setIsImgLoaded] = useState(false)
+
   const [characterData, setCharacterData] = useState({
     slotNum: user.slotNum,
     userId: user.userData.id,
@@ -11,6 +12,29 @@ const CreateCharacter = ({userManager, audioManager, onBack }) => {
     characterClass: '',
     characterRace: '',
   });
+
+  const debugLog = useDebugLog()
+  //fix here
+  useEffect(() => {
+    const initializeData = async () => {
+      const userData = await getDiscordId(auth);
+      const userId = userData.id
+      const avatarHash = userData.avatar
+      const userName = userData.username
+      let imageUrl = await getDiscordProfilePic(userId, avatarHash,userName, debugLog)
+      debugLog(imageUrl, "this is url in create character")
+      window.playerAvatarUrl = imageUrl;
+      setCharacterData((prev) => ({
+        ...prev,
+        userId: userId,
+        slotNum: slotIndex,
+        imageUrl: imageUrl,
+      }));
+    };
+
+    initializeData(); // Call the async function within useEffect
+  }, [setAvatarUrl]);
+
 
   const auraClass = `aura-${characterData.characterClass}`;
 
