@@ -1,4 +1,4 @@
-export async function getDiscordProfilePic(userId, avatarHash, userName, debugLog) {
+export async function getDiscordProfilePic(userId, avatarHash, userName) {
     let src;
     if (avatarHash) {
         src = `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png`;
@@ -14,6 +14,5 @@ export async function getDiscordProfilePic(userId, avatarHash, userName, debugLo
             src = `https://cdn.discordapp.com/embed/avatars/${index}.png`;
         }
     }
-    debugLog('this is src', src);
     return src;
 }

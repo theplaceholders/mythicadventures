@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { removeCharacter } from '../utility/removeCharacter';
 import "./SelectCharacter.css"
 
@@ -9,10 +9,7 @@ const CharacterCard = ({characterData, slotIndex, handleSelectButtonClick }) => 
       {characterData ? (
         <button className="characterSelectButton" onClick={()=>handleSelectButtonClick({"isCreateCharacter":false, slotIndex})}>
           <div className='characterCardIconContainer'>
-            <div className='characterIcon-addProfile'>
-              <div />
-              <div />
-            </div>
+            <img className={`profilePic aura-${characterData.characterClass}`} src={characterData.imageUrl} alt="Profile Pic"/>
           </div>
           <div className='characterCardInfoContainer'>
             <p>Name: {characterData.characterName}</p>
@@ -44,10 +41,14 @@ const SelectCharacter = ({
   onPlayGame,
   updateUserProfile
 }) => {
-  
-
   const{ user, setUser } = userManager
-  let characterInfo = userManager.user.profile;
+  const [characterInfo, setCharacterInfo] = useState("")
+  console.log("HEREEEEEE", JSON.stringify(user.profile))
+
+  useEffect(()=>{
+    setCharacterInfo(user.profile)
+  },[user])
+
   if (!characterInfo) {
     return <div>Loading...</div>; // Placeholder for when data is not yet available
   }
@@ -62,13 +63,15 @@ const SelectCharacter = ({
     }
   };
 
-  const handleDeleteSlot = ({slotIndex}) => {
-    removeCharacter({slotIndex, userId:user.userData.id})
+  const handleDeleteSlot = async({slotIndex}) => {
+    await removeCharacter({slotIndex, userId:user.userData.id})
     updateUserProfile()
   }
 
   const slots = [1, 2, 3].map(index => {
     const characterData = characterInfo[`slot-${index}`];
+    if(characterData)
+      characterData.imageUrl = user.imageUrl
     return (
       <div key={`slot-${index}`}>
         <p>{`Slot ${index}`}</p>

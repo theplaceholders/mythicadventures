@@ -11,7 +11,8 @@ class MainScene extends Phaser.Scene {
     }
 
     preload() {
-        const avatarUrl = window.playerAvatarUrl || 'default_avatar_url.png';
+        const avatarUrl = window.playerAvatarUrl || 'default_avatar_url.png';   
+        this.avatarUrl = avatarUrl     
         this.load.image('playerSprite', avatarUrl);
         this.load.plugin('rexCircleMaskImagePlugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexcirclemaskimageplugin.min.js', true);
         this.gameMap.preload();
@@ -32,7 +33,8 @@ class MainScene extends Phaser.Scene {
             w: 'W', a: 'A', s: 'S', d: 'D', esc: 'ESC'
         });
     }
-     isCustomAvatar(avatarUrl) {
+    isCustomAvatar(avatarUrl) {
+        console.log("This is herererererererere", avatarUrl)
         // Check if the URL contains the 'embed/avatars' segment which indicates a default avatar
         const isDefault = avatarUrl.includes('embed/avatars');
         // Return true if it's not a default avatar, meaning it's a custom avatar
