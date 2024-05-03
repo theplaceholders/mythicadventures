@@ -74,7 +74,6 @@ import { getDiscordProfilePic } from './discordApi/getDiscordProfilePic';
   async function updateUserProfile(){
     const profile = await getUserProfiles(user.userData.id);
     setUser(prev=>({...prev, profile:profile}))
-    // console.log(JSON.stringify(profile))
   }
 
   const renderPage = () => {

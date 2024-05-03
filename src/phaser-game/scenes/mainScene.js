@@ -34,11 +34,10 @@ class MainScene extends Phaser.Scene {
         });
     }
     isCustomAvatar(avatarUrl) {
-        console.log("This is herererererererere", avatarUrl)
+        console.log("This is herererererererere", avatarUrl, avatarUrl.includes('embed/avatars'))
         // Check if the URL contains the 'embed/avatars' segment which indicates a default avatar
-        const isDefault = avatarUrl.includes('embed/avatars');
         // Return true if it's not a default avatar, meaning it's a custom avatar
-        return !isDefault;
+        return !avatarUrl.includes('embed/avatars');
     }
     setupCamera() {
         const camera = this.cameras.main;

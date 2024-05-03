@@ -8,7 +8,7 @@ export default class Player {
         this.sprite.body.setSize(20, 18);
         this.sprite.body.setOffset(6, 40);
         this.sprite.setDepth(400);
-        if(!isCustom) {
+        if(isCustom) {
             this.sprite.setScale(0.5);
         } else {
             this.sprite.setScale(0.2);
