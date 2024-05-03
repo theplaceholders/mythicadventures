@@ -1,5 +1,5 @@
-export async function getDiscordProfilePic(userId, avatarhash, debugLog) {
+export async function getDiscordProfilePic(userId, avatarhash) {
     const src = `https://cdn.discordapp.com/avatars/${userId}/${avatarhash}.png`;
-    debugLog('this is src', src)
+    // debugLog('this is src', src)
     return src
 }

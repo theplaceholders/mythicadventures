@@ -1,38 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { saveCharacter } from '../utility/saveCharacter';
-import { getDiscordId } from '../discordApi/getDiscordId';
-import { useDebugLog } from '../utility/DebugLog';
-import { getDiscordProfilePic } from '../discordApi/getDiscordProfilePic';
 
-const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
-
+const CreateCharacter = ({userManager, audioManager, onBack }) => {
+  const {user, setUser} = userManager
   const [isImgLoaded, setIsImgLoaded] = useState(false)
   const [characterData, setCharacterData] = useState({
-    slotNum: slotIndex,
-    userId: '',
+    slotNum: user.slotNum,
+    userId: user.userData.id,
     characterName: '',
     characterClass: '',
     characterRace: '',
   });
-
-  const debugLog = useDebugLog()
-  
-  useEffect(() => {
-    const initializeData = async () => {
-      const userData = await getDiscordId(auth);
-      const userId = userData.id
-      const avatarHash = userData.avatar
-      let imageUrl = await getDiscordProfilePic(userId, avatarHash, debugLog)
-      setCharacterData((prev) => ({
-        ...prev,
-        userId: userId,
-        slotNum: slotIndex,
-        imageUrl: imageUrl,
-      }));
-    };
-
-    initializeData(); // Call the async function within useEffect
-  }, []);
 
   const auraClass = `aura-${characterData.characterClass}`;
 
@@ -42,7 +20,7 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
       {isImgLoaded? null :
       <h2>Loading ...</h2>
       }
-      <img className={`profilePic ${auraClass}`} src={characterData.imageUrl} alt="Character" onLoad={()=> setIsImgLoaded(true)}/>
+      <img className={`profilePic ${auraClass}`} src={user.imageUrl} alt="Profile Pic" onLoad={()=> setIsImgLoaded(true)}/>
       
       <label htmlFor="characterName">Name:</label>
       <input
@@ -100,6 +78,7 @@ const CreateCharacter = ({ auth, audioManager, onBack, slotIndex }) => {
         onClick={() => {
           audioManager.playSFX('click');
           saveCharacter(characterData);
+          onBack();
         }}
       >
         Continue

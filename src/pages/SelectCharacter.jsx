@@ -1,11 +1,13 @@
 import React from 'react';
 import "./SelectCharacter.css"
 
-const CharacterCard = ({ characterData, onCreateCharacter, slotIndex }) => {
+const CharacterCard = ({setUser, characterData, onCreateCharacter, slotIndex }) => {
 
   const handleSelectButtonClick = ({isCreateCharacter}) => {
-    if(isCreateCharacter)
-      onCreateCharacter(slotIndex);
+    if(isCreateCharacter){
+      setUser(prev=>{console.log(JSON.stringify({...prev, slotNum:slotIndex}));return ({...prev, slotNum:slotIndex})})
+      onCreateCharacter();
+    }
     
   };
 
@@ -47,7 +49,7 @@ const SelectCharacter = ({
   audioManager,
   onBack,
 }) => {
-  let characterInfo = userManager.userProfile;
+  let characterInfo = userManager.user.profile;
   if (!characterInfo) {
     return <div>Loading...</div>; // Placeholder for when data is not yet available
   }
@@ -57,7 +59,7 @@ const SelectCharacter = ({
     return (
       <div key={`slot-${index}`}>
         <p>{`Slot ${index}`}</p>
-        <CharacterCard characterData={characterData} onCreateCharacter={onCreateCharacter} slotIndex={index}/>
+        <CharacterCard setUser={userManager.setUser} characterData={characterData} onCreateCharacter={onCreateCharacter} slotIndex={index}/>
       </div>
     );
   });

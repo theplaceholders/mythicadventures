@@ -1,30 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { getUserProfiles } from '../utility/getUserProfiles';
-import { useDebugLog } from '../utility/DebugLog';
-import { getDiscordId } from '../discordApi/getDiscordId';
 
 export const MainMenu = ({
   audioManager,
-  userManager,
   onSelectCharacter,
-  onSettings,
-  auth
+  onSettings
 }) => {
-  const debugLog = useDebugLog();
-  useEffect(() => {
-    const fetchData = async () => {
-
-      debugLog(auth, "this is auth")
-      const userData = await getDiscordId(auth)
-      debugLog(JSON.stringify(userData), "this is user data")
-      const profiles = await getUserProfiles(userData.id, debugLog);
-      console.log(profiles);
-      if (profiles) {
-        userManager.setUserProfile(profiles);
-      }
-    };
-    fetchData();
-  }, [auth]);
 
   return (
     <div className="main-menu">
