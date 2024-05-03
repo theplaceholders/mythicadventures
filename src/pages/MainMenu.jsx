@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { getUserProfiles } from '../utility/getUserProfiles';
-import { useDebugLog } from '../utility/DebugLog';
-import { getDiscordId } from '../discordApi/getDiscordId';
-import { getDiscordProfilePic } from '../discordApi/getDiscordProfilePic';
 export const MainMenu = ({
   audioManager,
-  userManager,
   onSelectCharacter,
-  onSettings,
-  auth
+  onSettings
 }) => {
   const [profilePic, setProfilePic] = useState()
   const debugLog = useDebugLog();
+  //fix here
   useEffect(() => {
     const fetchData = async () => {
       

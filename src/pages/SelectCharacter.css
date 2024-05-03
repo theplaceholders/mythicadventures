@@ -21,28 +21,12 @@
     flex-direction: column;
 }
 
-.characterCardContainer > div{
-    background-color: rgba(20,20,20,0.8);
-    border-radius: 20px;
-    padding: 10px;
-}
-
 .characterCardIconContainer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1
-}
-
-.characterIcon-button{
-    background-color: rgba(0, 0, 0, 0);
-    width:100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    color: white;
+    flex: 1
 }
 
 .characterIcon-addProfile{
@@ -66,4 +50,17 @@
 .characterIcon-addProfile > div:nth-of-type(2){
     transform: rotateZ(90deg);
     translate: -50% -140%;
+}
+
+.characterSelectButton{
+    background-color: rgba(20,20,20,0.8);
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }

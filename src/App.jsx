@@ -9,16 +9,18 @@ import SelectCharacter from './pages/SelectCharacter';
 import { DebugProvider, DebugLogWindow } from './utility/DebugLog';
 import { DiscordSDK } from "@discord/embedded-app-sdk";
 import API_URL from './utility/API-URL';
+import { getDiscordId } from './discordApi/getDiscordId'; 
+import { getUserProfiles } from './utility/getUserProfiles';
+import { getDiscordProfilePic } from './discordApi/getDiscordProfilePic'; 
+
  function App() {
-  const [characterCreationSlot, setCharacterCreationSlot] = useState(null);
   const [currentPage, setCurrentPage] = useState('mainMenu');
-  const [userProfile, setUserProfile] = useState({});
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true)
   const [auth, setAuth] = useState();
   const audioManager = new AudioManager();
   useEffect( () => {
-    
     const discordSdk = new DiscordSDK(import.meta.env.VITE_DISCORD_CLIENT_ID);
-    
     const setupDiscordSdk = async () => {
       await discordSdk.ready();
       console.log("Discord SDK is ready");
@@ -45,13 +47,17 @@ import API_URL from './utility/API-URL';
 
         const data  = await response.json();
         const accessToken = data.accessToken
-        console.log(data.accessToken)
         const authenticated = await discordSdk.commands.authenticate({
           access_token: accessToken
         });
 
         if (authenticated) {
           setAuth(accessToken);
+          const userData = await getDiscordId(accessToken)
+          const profile = await getUserProfiles(userData.id);
+          const imageUrl = await getDiscordProfilePic(userData.id, userData.avatar)
+          setUser({userData:userData, profile:profile, imageUrl:imageUrl})
+          setIsLoading(false)
           console.log("Discord SDK is authenticated");
         } else {
           throw new Error("Authentication failed");
@@ -64,16 +70,22 @@ import API_URL from './utility/API-URL';
      setupDiscordSdk();
   }, []); 
 
+  async function updateUserProfile(){
+    const profile = await getUserProfiles(user.userData.id);
+    setUser(prev=>({...prev, profile:profile}))
+    console.log(JSON.stringify(profile))
+  }
+
   const renderPage = () => {
     switch (currentPage) {
       case 'mainMenu':
-        return <MainMenu auth = {auth} audioManager={audioManager} userManager={{ userProfile, setUserProfile }} onSettings={() => setCurrentPage('settings')} onSelectCharacter={() => setCurrentPage('selectCharacter')} onPlayGame={() => setCurrentPage('playGame')} />;
+        return <MainMenu audioManager={audioManager} onSettings={() => setCurrentPage('settings')} onSelectCharacter={() => setCurrentPage('selectCharacter')} onPlayGame={() => setCurrentPage('playGame')} />;
       case 'settings':
         return <Settings audioManager={audioManager} onBack={() => setCurrentPage('mainMenu')} />;
       case 'createCharacter':
-        return <CreateCharacter auth={auth}slotIndex={characterCreationSlot} audioManager={audioManager} onBack={() => {setCharacterCreationSlot(null); setCurrentPage('selectCharacter');}} />;
+        return <CreateCharacter userManager={{user, setUser}} audioManager={audioManager} onBack={() => {setUser(prev=>({...prev, slotNum:null})); updateUserProfile(); setCurrentPage('selectCharacter');}} />;
       case 'selectCharacter':
-        return <SelectCharacter onCreateCharacter={(slotIndex) => {setCharacterCreationSlot(slotIndex); setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ userProfile, setUserProfile }} onBack={() => setCurrentPage('playGame')} />;
+        return <SelectCharacter onCreateCharacter={(slotIndex) => {setCurrentPage('createCharacter');}} audioManager={audioManager} userManager={{ user, setUser }} onBack={() => setCurrentPage('mainMenu')} onPlayGame={()=> setCurrentPage('playGame')} updateUserProfile={updateUserProfile}/>;
       case 'playGame':
         return <PhaserGame avatarUrl={avatarUrl} exitGame={() => setCurrentPage('mainMenu')} />;
       default:
@@ -84,7 +96,7 @@ import API_URL from './utility/API-URL';
   return (
     <div className="App">
       <DebugProvider>
-        {renderPage()}
+        {isLoading? <h1>Loading......</h1> : renderPage()}
         <DebugLogWindow />
       </DebugProvider>
     </div>
