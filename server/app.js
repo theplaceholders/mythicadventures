@@ -50,6 +50,41 @@ app.post('/save-player-data', (req, res) => {
     });
   });
 
+app.delete('/remove-player-data', (req, res) => {
+  const { slotIndex, userId } = req.body; // Assume data is the object to save
+  const fileName = `${userId}.json`; // Generate a file name
+  const filePath = path.join(__dirname, 'playerData', fileName);
+
+  fs.readFile(filePath, { encoding: 'utf8' }, (err, fileContents) => {
+    let currentData = {};
+
+    if (!err && fileContents) {
+      try {
+        currentData = JSON.parse(fileContents);
+      } catch (parseErr) {
+        console.error('Failed to parse player data:', parseErr);
+        res.status(500).send('Error reading player data.');
+        return;
+      }
+    }
+
+    // Format or update the data
+    console.log("Current Data before delete:", currentData);
+    delete currentData[`slot-${slotIndex}`]
+    delete currentData[`playerData-${slotIndex}`]
+    console.log("Updated Data:", currentData);
+    // Write the updated data back to the file
+    fs.writeFile(filePath, JSON.stringify(currentData, null, 2), (writeErr) => {
+      if (writeErr) {
+        console.error('Failed to remove player data:', writeErr);
+        res.status(500).send('Error removing player data.');
+        return;
+      }
+      res.send('Player data removed successfully.');
+    });
+  });
+});
+
   app.get('/check-slot-count/:userId', (req, res) => {
     const userId = req.params.userId;
     const filePath = path.join(__dirname, 'playerData', `${userId}.json`);

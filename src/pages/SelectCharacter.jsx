@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { removeCharacter } from '../utility/removeCharacter';
 import "./SelectCharacter.css"
 
 const CharacterCard = ({characterData, slotIndex, handleSelectButtonClick }) => {
@@ -40,7 +41,8 @@ const SelectCharacter = ({
   onCreateCharacter,
   audioManager,
   onBack,
-  onPlayGame
+  onPlayGame,
+  updateUserProfile
 }) => {
   
 
@@ -58,8 +60,12 @@ const SelectCharacter = ({
       setUser(prev=>({...prev, currentSlot:slotIndex}))
       onPlayGame()
     }
-    
   };
+
+  const handleDeleteSlot = ({slotIndex}) => {
+    removeCharacter({slotIndex, userId:user.userData.id})
+    updateUserProfile()
+  }
 
   const slots = [1, 2, 3].map(index => {
     const characterData = characterInfo[`slot-${index}`];
@@ -67,6 +73,11 @@ const SelectCharacter = ({
       <div key={`slot-${index}`}>
         <p>{`Slot ${index}`}</p>
         <CharacterCard characterData={characterData} slotIndex={index} handleSelectButtonClick={handleSelectButtonClick}/>
+        {characterData ?
+          <button onClick={()=>handleDeleteSlot({slotIndex:index})}>delete me</button>
+          :
+          null
+        }
       </div>
     );
   });
