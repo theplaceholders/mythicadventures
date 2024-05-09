@@ -14,11 +14,23 @@ export const MainMenu = ({
           id="btnPlayGame"
           onMouseEnter={() => audioManager.playSFX('hover')}
           onClick={() => {
+            window.isTutorial = false
             audioManager.playSFX('click');
               onSelectCharacter();
           }}
         >
           Play Game
+        </button>
+        <button
+          id="btnTutorial"
+          onMouseEnter={() => audioManager.playSFX('hover')}
+          onClick={() => {
+            window.isTutorial = true
+            audioManager.playSFX('click');
+              onSelectCharacter();
+          }}
+        >
+          Tutorial
         </button>
         <button
           id="btnSettings"

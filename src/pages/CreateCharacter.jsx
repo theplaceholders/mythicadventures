@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { saveCharacter } from '../utility/saveCharacter';
 
-const CreateCharacter = ({userManager, audioManager, onBack, setAvatarUrl }) => {
+const CreateCharacter = ({userManager, audioManager, onBack }) => {
   const {user} = userManager
   const [isImgLoaded, setIsImgLoaded] = useState(false)
 
@@ -50,9 +50,9 @@ const CreateCharacter = ({userManager, audioManager, onBack, setAvatarUrl }) => 
         }
       >
         <option value="">Select Class</option>
-        <option value="warrior">Warrior</option>
-        <option value="mage">Mage</option>
-        <option value="ranger">Ranger</option>
+        <option value="Warrior">Warrior</option>
+        <option value="Mage">Mage</option>
+        <option value="Ranger">Ranger</option>
       </select>
 
       <label htmlFor="characterRace">Race:</label>
@@ -68,11 +68,11 @@ const CreateCharacter = ({userManager, audioManager, onBack, setAvatarUrl }) => 
         }
       >
         <option value="">Select Race</option>
-        <option value="human">Human</option>
-        <option value="elf">Elf</option>
-        <option value="orc">Orc</option>
+        <option value="Human">Human</option>
+        <option value="Elf">Elf</option>
+        <option value="Orc">Orc</option>
       </select>
-
+      
       <button
         id="btnSave"
         onMouseEnter={() => audioManager.playSFX('hover')}

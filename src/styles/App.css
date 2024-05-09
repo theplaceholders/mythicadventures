@@ -62,15 +62,15 @@ button {
 }
 
 /* Aura styles for each character class */
-.aura-warrior {
+.aura-Warrior {
   box-shadow: 0 0 15px 5px red; /* Red aura for warriors */
 }
 
-.aura-mage {
+.aura-Mage {
   box-shadow: 0 0 15px 5px blue; /* Blue aura for mages */
 }
 
-.aura-ranger {
+.aura-Ranger {
   box-shadow: 0 0 15px 5px green; /* Green aura for rangers */
 }
 .main-menu {
