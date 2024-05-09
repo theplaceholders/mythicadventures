@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { removeCharacter } from '../utility/removeCharacter';
 import "./SelectCharacter.css"
-
-const CharacterCard = ({characterData, slotIndex, handleSelectButtonClick }) => {
+import { getPlayerData } from '../utility/getPlayerData';
+const CharacterCard = ({userId, characterData, slotIndex, handleSelectButtonClick }) => {
 
   return(
     <div className='characterCardContainer'>
@@ -53,12 +53,15 @@ const SelectCharacter = ({
     return <div>Loading...</div>; // Placeholder for when data is not yet available
   }
 
-  const handleSelectButtonClick = ({isCreateCharacter, slotIndex}) => {
+  const handleSelectButtonClick = async ({isCreateCharacter, slotIndex}) => {
     if(isCreateCharacter){
       setUser(prev=>{console.log(JSON.stringify({...prev, slotNum:slotIndex}));return ({...prev, slotNum:slotIndex})})
       onCreateCharacter();
     } else {
       setUser(prev=>({...prev, currentSlot:slotIndex}))
+      console.log(user.userData.id, "userid hereeeee")
+      const playerData = await getPlayerData(slotIndex, user.userData.id)
+      window.playerData = playerData
       onPlayGame()
     }
   };

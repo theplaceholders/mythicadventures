@@ -29,7 +29,7 @@ export default class GameMap {
         const plantsLayer = this.map.createLayer("Tree Layer", plantTiles, 0, 0);
 
         grassLayer.setDepth(1);
-        plantsLayer.setDepth(500);
+        plantsLayer.setDepth(1);
         plantsLayer.setCollisionByProperty({ collide: true });
 
         this.scene.physics.world.createDebugGraphic();
